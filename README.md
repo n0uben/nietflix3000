@@ -1,4 +1,4 @@
-# IMDB de wish
+# Nietflix3000
 
 ![Logo](https://m.media-amazon.com/images/G/01/IMDb/BG_square._CB1509067564_SY230_SX307_AL_.png)
 
@@ -18,6 +18,3 @@ Projet à réaliser dans le cadre du cours d'applications réparties de la LP G�
 2. C#
 3. SQL
 
-## Lancer le projet
-
-Run `mvn clean install`
