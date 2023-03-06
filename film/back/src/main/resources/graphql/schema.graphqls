@@ -1,0 +1,11 @@
+type Query {
+    movieById(id: ID): Movie
+    allMovies: [Movie]
+}
+
+type Movie {
+    id: ID
+    nom: String
+    dateSortie: String
+    duree: Int
+}
