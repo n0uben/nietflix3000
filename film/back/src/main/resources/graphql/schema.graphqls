@@ -1,11 +1,24 @@
-type Query {
-    movieById(id: ID): Movie
-    allMovies: [Movie]
-}
-
 type Movie {
     id: ID
     nom: String
     dateSortie: String
     duree: Int
+}
+
+input MovieInput {
+    nom: String
+    dateSortie: String
+    duree: Int
+}
+
+type Query {
+    movieById(id: ID): Movie
+    allMovies: [Movie]
+    movieByNom(nom: String): Movie
+}
+
+type Mutation {
+#    createMovie(nom: String): Movie
+#    createMovie(input: MovieInput): Movie
+    createMovie(nom: String!, dateSortie: String!, duree: Int!): Movie
 }

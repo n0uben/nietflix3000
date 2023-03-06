@@ -34,3 +34,16 @@ query listMovies {
     }
 }
 ```
+
+### Créer un film
+
+```
+mutation {
+    createMovie(nom: "un bien bon film", dateSortie: "1992", duree: 120) {
+        id
+        nom
+        dateSortie
+        duree
+        }
+    }
+```

@@ -4,6 +4,7 @@ import fr.nietflix.dao.MovieRepository;
 import fr.nietflix.model.Movie;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,10 @@ public class MovieService {
 
     public Optional<Movie> findOne(Long id) {
         return this.movieRepository.findById(id);
+    }
+
+    public Optional<Movie> findByName(String nom) {
+        return this.movieRepository.findMovieByNom(nom);
     }
 
     public List<Movie> findAll() {
