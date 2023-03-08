@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Seance ###
+seance/src/main/resources/application.properties
+
 ### STS ###
 .apt_generated
 .classpath
@@ -31,6 +34,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### Seance ###
-seance/src/main/resources/application.properties
