@@ -1,8 +1,17 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import http from "axios";
 
 import './assets/main.css'
+
+export default http.create({
+    baseURL: "http://localhost:8080",
+    headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
+    },
+})
 
 const app = createApp(App)
 
