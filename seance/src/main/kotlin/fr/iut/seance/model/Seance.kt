@@ -14,30 +14,30 @@ class Seance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var idSeance: Long = 0
 
-    @Column
-    lateinit var date: String
+    @Column(nullable = true)
+    var date: String? = null
 
-    @Column
-    lateinit var horraireDebut: String
+    @Column(nullable = true)
+    var horraireDebut: String? = null
 
-    @Column
-    lateinit var horraireFin: String
+    @Column(nullable = true)
+    var horraireFin: String? = null
 
-    @Column
-    lateinit var idFilm: BigInteger
+    @Column(nullable = true)
+    var idFilm: Int? = null
 
-    @Column
-    lateinit var idCinema: BigInteger
+    @Column(nullable = true)
+    var idCinema: Int? = null
 
-    @Column
-    lateinit var idSalle: BigInteger
+    @Column(nullable = true)
+    var idSalle: Int? = null
 
-    @Column
-    lateinit var placeDispo: Integer
+    @Column(nullable = true)
+    var placeDispo: Int? = null
 
     constructor()
 
-    constructor(date: String, horraireDebut: String, horraireFin: String, idFilm: BigInteger, idCinema: BigInteger, idSalle: BigInteger, placeDispo: Integer) {
+    constructor(date: String?, horraireDebut: String?, horraireFin: String?, idFilm: Int?, idCinema: Int?, idSalle: Int?, placeDispo: Int?) {
         this.date = date
         this.horraireDebut = horraireDebut
         this.horraireFin = horraireFin
@@ -47,7 +47,7 @@ class Seance {
         this.placeDispo = placeDispo
     }
 
-    constructor(idSeance: Long, date: String, horraireDebut: String, horraireFin: String, idFilm: BigInteger, idCinema: BigInteger, idSalle: BigInteger, placeDispo: Integer) {
+    constructor(idSeance: Long, date: String?, horraireDebut: String?, horraireFin: String?, idFilm: Int?, idCinema: Int?, idSalle: Int?, placeDispo: Int?) {
         this.idSeance = idSeance
         this.date = date
         this.horraireDebut = horraireDebut
