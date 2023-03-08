@@ -2,47 +2,29 @@
 import { RouterLink, RouterView } from 'vue-router'
 </script>
 
-<script>
-import movieService from "@/services/MovieService";
-
-export default {
-  data() {
-    return {
-      films: []
-    }
-  },
-
-  mounted() {
-    this.getAllMovies();
-  },
-  methods: {
-    async getAllMovies() {
-      try {
-        const response = await movieService.getAll()
-        this.films = response.data.data.allMovies
-      } catch (e) {
-        console.log(e)
-      }
-    },
-  }
-}
-</script>
-
 <template>
-  <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <header class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <RouterLink to="/" class="navbar-brand">
+            Nietflix Films backoffice
+          </RouterLink>
+          <div class="navbar-nav">
+              <RouterLink to="/" class="nav-item nav-link">Home</RouterLink>
+              <RouterLink to="/documentation" class="nav-item nav-link">Documentation</RouterLink>
+          </div>
+        </nav>
+      </div>
+    </div>
+
   </header>
 
-<!--  <RouterView />-->
-    <div>
-      <p v-for="film in this.films" :key="film.id">Film : {{film.nom}}</p>
-    </div>
+  <RouterView />
+
 </template>
 
-<style scoped>
+<style>
 
-
+@import "bootstrap/dist/css/bootstrap.css";
 </style>
