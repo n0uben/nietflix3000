@@ -40,8 +40,7 @@ export default {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Films</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
 
@@ -49,8 +48,7 @@ export default {
           <tr v-for="film in this.films">
             <th scope="row">{{film.id}}</th>
             <td>{{film.nom}}</td>
-            <td><RouterLink to="/">modifier</RouterLink> </td>
-            <td><RouterLink to="/">supprimer</RouterLink></td>
+            <td><RouterLink to="/">modifier</RouterLink> / <RouterLink to="/">supprimer</RouterLink> </td>
           </tr>
           </tbody>
         </table>
