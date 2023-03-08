@@ -35,28 +35,34 @@ export default {
       <div class="col">
         <h1>HomePage</h1>
 
-        <table class="table">
+        <table class="table table-striped table-secondary">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Films</th>
+              <th scope="col">#</th>
+              <th scope="col">Films</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
 
           <tbody>
           <tr v-for="film in this.films">
-
+            <th scope="row">{{film.id}}</th>
+            <td>{{film.nom}}</td>
+            <td><RouterLink to="/">modifier</RouterLink> </td>
+            <td><RouterLink to="/">supprimer</RouterLink></td>
           </tr>
           </tbody>
-
         </table>
-        <ul>
-          <li v-for="film in this.films" :key="film.id">Film : {{film.nom}}</li>
-          <router-link to="/documentation">mon super lien</router-link>
-        </ul>
       </div>
     </div>
 
 
   </div>
 </template>
+
+<style>
+  th {
+    font-weight: bold;
+  }
+</style>
