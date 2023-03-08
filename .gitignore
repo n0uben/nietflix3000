@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Seance ###
+seance/src/main/resources/application.properties
