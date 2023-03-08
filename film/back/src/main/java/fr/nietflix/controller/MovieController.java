@@ -42,11 +42,31 @@ public class MovieController {
         movieToCreate.setNom(nom);
         movieToCreate.setDateSortie(dateSortie);
         movieToCreate.setDuree(duree);
-//        movieToCreate.setNom(movie.getNom());
-//        movieToCreate.setDateSortie(movie.getDateSortie());
-//        movieToCreate.setDuree(movie.getDuree());
 
         return this.movieService.create(movieToCreate);
+    }
+
+    @MutationMapping
+    public Movie updateMovie(@Argument Long id, @Argument String nom, @Argument String dateSortie, @Argument Integer duree) {
+        return this.movieService.findOne(id)
+                .map(movie -> {
+                    movie.setNom(nom);
+                    movie.setDateSortie(dateSortie);
+                    movie.setDuree(duree);
+
+                    this.movieService.update(movie);
+
+                    return movie;
+                }).orElse(new Movie());
+    }
+
+    @MutationMapping
+    public Movie deleteMovie(@Argument Long id) {
+        return this.movieService.findOne(id)
+                .map(movie -> {
+                        this.movieService.delete(id);
+                        return movie;
+        }).orElse(new Movie());
     }
 
 }

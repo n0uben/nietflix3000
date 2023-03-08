@@ -18,7 +18,7 @@ type Query {
 }
 
 type Mutation {
-#    createMovie(nom: String): Movie
-#    createMovie(input: MovieInput): Movie
     createMovie(nom: String!, dateSortie: String!, duree: Int!): Movie
+    updateMovie(id: ID!, nom: String!, dateSortie: String!, duree: Int!): Movie
+    deleteMovie(id: ID!): Movie
 }

@@ -39,11 +39,32 @@ query listMovies {
 
 ```
 mutation {
-    createMovie(nom: "un bien bon film", dateSortie: "1992", duree: 120) {
+    createMovie(nom: "un bien bon film", dateSortie: "1992", duree: 120) 
+    {
         id
-        nom
-        dateSortie
-        duree
-        }
     }
+}
 ```
+
+### Modifier un film
+
+```
+mutation {
+updateMovie(id: 1, nom: "un bien bon film", dateSortie: "1993", duree: 120) {
+id
+}
+}
+```
+
+### Supprimer un film
+
+```
+mutation {
+deleteMovie(id: 1) {
+id
+}
+}
+```
+
+
+A noter : l'id est la valeur de retour de la mutation (l'id de l'entité créée)
