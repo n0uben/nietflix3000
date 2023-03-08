@@ -1,0 +1,7 @@
+spring.datasource.url="url de votre base"
+spring.datasource.username="username de votre base"
+spring.datasource.password="password de votre base"
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.show-sql=true
