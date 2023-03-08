@@ -1,3 +1,3 @@
-INSERT INTO movie (nom, date_sortie, duree) VALUES ('test', '2022', 90);
-INSERT INTO movie (nom, date_sortie, duree) VALUES ('test2', '1990', 120);
-INSERT INTO movie (nom, date_sortie, duree) VALUES ('test3', '2002', 180);
+INSERT INTO movie (nom, description, date_sortie, duree) VALUES ('test', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam luctus efficitur iaculis. Maecenas eu dolor sit amet nisl pellentesque dapibus. Proin lobortis, odio sit amet commodo mattis, odio ex porttitor nunis magna, a fermentum urna tempus eu.', '2022', 90);
+INSERT INTO movie (nom, description, date_sortie, duree) VALUES ('test2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam luctus efficitur iaculis. Maecenas eu dolor sit amet nisl pellentesque dapibus. Proin lobortis, odio sit amet commodo mattis, odio ex porttitor nunc, et placerat ex maua tempus eu.', '1990', 120);
+INSERT INTO movie (nom, description, date_sortie, duree) VALUES ('test3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam luctus efficitur iaculis. Maecenas eu dolor sit amet nisl pellentesque dapibus. Proin lobortis, odio sit amet commodo mattis, odio ex portenenatis magna, a fermentum urna tempus eu.', '2002', 180);

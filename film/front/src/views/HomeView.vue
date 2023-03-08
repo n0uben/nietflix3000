@@ -6,6 +6,7 @@ import {RouterLink} from "vue-router";
 import movieService from "@/services/MovieService";
 
 export default {
+  name : 'HomeView',
   data() {
     return {
       films: []
@@ -21,7 +22,7 @@ export default {
         const response = await movieService.getAll()
         this.films = response.data.data.allMovies
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     },
   }
@@ -32,7 +33,7 @@ export default {
   <div class="home container-fluid">
 
     <div class="row">
-      <div class="col">
+      <div class="col-xl-10 col-md-12">
         <h1>HomePage</h1>
 
         <table class="table table-striped table-secondary">
@@ -45,22 +46,28 @@ export default {
           </thead>
 
           <tbody>
-          <tr v-for="film in this.films">
-            <th scope="row">{{film.id}}</th>
-            <td>{{film.nom}}</td>
-            <td><RouterLink to="/">modifier</RouterLink> / <RouterLink to="/">supprimer</RouterLink> </td>
-          </tr>
+            <tr v-for="film in this.films" :key="film.id">
+              <th scope="row">{{ film.id }}</th>
+              <td>{{ film.nom }}</td>
+              <td>
+                <RouterLink :to="{name: 'films', params: {id: film.id}}">modifier</RouterLink>
+                /
+                <RouterLink to="/films">supprimer</RouterLink>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
+
+    <RouterView></RouterView>
 
 
   </div>
 </template>
 
 <style>
-  th {
-    font-weight: bold;
-  }
+th {
+  font-weight: bold;
+}
 </style>

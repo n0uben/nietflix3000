@@ -38,10 +38,11 @@ public class MovieController {
     }
 
     @MutationMapping
-    public Movie createMovie(@Argument String nom, @Argument String dateSortie, @Argument Integer duree) {
+    public Movie createMovie(@Argument String nom, @Argument String description, @Argument String dateSortie, @Argument Integer duree) {
         Movie movieToCreate = new Movie();
 
         movieToCreate.setNom(nom);
+        movieToCreate.setDescription(description);
         movieToCreate.setDateSortie(dateSortie);
         movieToCreate.setDuree(duree);
 
@@ -49,10 +50,11 @@ public class MovieController {
     }
 
     @MutationMapping
-    public Movie updateMovie(@Argument Long id, @Argument String nom, @Argument String dateSortie, @Argument Integer duree) {
+    public Movie updateMovie(@Argument Long id, @Argument String nom, @Argument String description, @Argument String dateSortie, @Argument Integer duree) {
         return this.movieService.findOne(id)
                 .map(movie -> {
                     movie.setNom(nom);
+                    movie.setDescription(description);
                     movie.setDateSortie(dateSortie);
                     movie.setDuree(duree);
 

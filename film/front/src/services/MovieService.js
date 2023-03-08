@@ -13,6 +13,20 @@ class MovieService {
                     }`
         })
     }
+
+    getOne(id) {
+        return http.post("/graphql", {
+            query: `query {
+                      movieById(id: ${id}) {
+                        id
+                        nom
+                        description
+                        dateSortie
+                        duree
+                      }
+                    }`
+        })
+    }
 }
 
 export default new MovieService();

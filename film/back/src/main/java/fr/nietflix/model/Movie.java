@@ -13,25 +13,15 @@ public class Movie {
     private String nom;
 
     @Column
+    private String description;
+
+    @Column
     private String dateSortie;
 
     @Column
     private Integer duree;
 
     public Movie() {
-    }
-
-    public Movie(String nom, String dateSortie, Integer duree) {
-        this.nom = nom;
-        this.dateSortie = dateSortie;
-        this.duree = duree;
-    }
-
-    public Movie(Long id, String nom, String dateSortie, Integer duree) {
-        this.id = id;
-        this.nom = nom;
-        this.dateSortie = dateSortie;
-        this.duree = duree;
     }
 
     public Long getId() {
@@ -50,6 +40,14 @@ public class Movie {
         this.nom = nom;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getDateSortie() {
         return dateSortie;
     }
@@ -65,4 +63,6 @@ public class Movie {
     public void setDuree(Integer duree) {
         this.duree = duree;
     }
+
+
 }
