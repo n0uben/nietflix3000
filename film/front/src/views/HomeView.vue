@@ -35,6 +35,21 @@ export default {
       <div class="col">
         <h1>HomePage</h1>
 
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Films</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr v-for="film in this.films">
+
+          </tr>
+          </tbody>
+
+        </table>
         <ul>
           <li v-for="film in this.films" :key="film.id">Film : {{film.nom}}</li>
           <router-link to="/documentation">mon super lien</router-link>

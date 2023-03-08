@@ -3,10 +3,8 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="container-fluid">
-    <div class="row">
-      <div class="col">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <header class="container-fluid px-0">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-2">
           <RouterLink to="/" class="navbar-brand">
             Nietflix Films backoffice
           </RouterLink>
@@ -15,9 +13,6 @@ import { RouterLink, RouterView } from 'vue-router'
               <RouterLink to="/documentation" class="nav-item nav-link">Documentation</RouterLink>
           </div>
         </nav>
-      </div>
-    </div>
-
   </header>
 
   <RouterView />
@@ -25,6 +20,10 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style>
-
 @import "bootstrap/dist/css/bootstrap.css";
+
+body {
+  padding: 0;
+  margin: 0;
+}
 </style>
