@@ -12,13 +12,27 @@ Pour tester l'api graphql, suivre les étapes suivantes :
 ### Un seul film
 
 ```
-query movieDetails {
+query {
   movieById(id: 1) {
     id
     nom
     dateSortie
     duree
   }
+}
+```
+
+### Un seul film par nom
+
+```
+query {
+movieByNom(nom: "test") {
+    id
+    nom
+    description
+    dateSortie
+    duree
+    }
 }
 ```
 
