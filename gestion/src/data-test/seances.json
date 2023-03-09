@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "idSeance" : 1,
+      "date": "04/02/2023",
+      "horraireDebut": "19h20",
+      "horraireFin": "22h00",
+      "idFilm": 1,
+      "idCinema": 1,
+      "idSalle": 3
+    },
+    {
+      "idSeance" : 2,
+      "date": "05/02/2023",
+      "horraireDebut": "15h20",
+      "horraireFin": "17h00",
+      "idFilm": 2,
+      "idCinema": 1,
+      "idSalle": 2
+    },
+    {
+      "idSeance" : 3,
+      "date": "05/02/2023",
+      "horraireDebut": "19h20",
+      "horraireFin": "22h00",
+      "idFilm": 2,
+      "idCinema": 2,
+      "idSalle": 3
+    },
+    {
+      "idSeance" : 4,
+      "date": "04/02/2023",
+      "horraireDebut": "17h20",
+      "horraireFin": "19h00",
+      "idFilm": 3,
+      "idCinema": 2,
+      "idSalle": 1
+    },
+    {
+      "idSeance" : 5,
+      "date": "06/02/2023",
+      "horraireDebut": "19h20",
+      "horraireFin": "22h00",
+      "idFilm": 1,
+      "idCinema": 3,
+      "idSalle": 1
+    },
+    {
+      "idSeance" : 6,
+      "date": "04/02/2023",
+      "horraireDebut": "19h20",
+      "horraireFin": "22h00",
+      "idFilm": 2,
+      "idCinema": 3,
+      "idSalle": 2
+    }
+  ]
+}
