@@ -1,0 +1,54 @@
+{
+  "data": [
+    {
+      "id" : 1,
+      "nom" : "CinemaPlex",
+      "salles" : [
+        {
+        "id" : 1,
+        "placeDispo" : 140
+        },
+        {
+          "id" : 2,
+          "placeDispo" : 180
+        },
+        {
+          "id" : 3,
+          "placeDispo" : 200
+        }]
+    },
+    {
+      "id" : 2,
+      "nom" : "CinemaWorld",
+      "salles" : [
+        {
+          "id" : 1,
+          "placeDispo" : 140
+        },
+        {
+          "id" : 2,
+          "placeDispo" : 180
+        },
+        {
+          "id" : 3,
+          "placeDispo" : 200
+        }]
+    },
+    {
+      "id" : 3,
+      "nom" : "CinemaMetz",
+      "salles" : [
+        {
+          "id" : 1,
+          "placeDispo" : 140
+        },
+        {
+          "id" : 2,
+          "placeDispo" : 180
+        },
+        {
+          "id" : 3,
+          "placeDispo" : 200
+        }]
+    }]
+}
