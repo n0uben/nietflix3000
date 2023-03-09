@@ -2,9 +2,8 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <h1>{{this.film.id}} - {{this.film.nom}}</h1>
-
-        <p>{{this.film.description}}</p>
+        <h1>Modifier le film</h1>
+        <MovieForm :movie="this.film" />
       </div>
     </div>
   </div>
@@ -14,8 +13,10 @@
 <script>
 
 import movieService from "@/services/MovieService";
+import MovieForm from "@/components/MovieForm.vue";
 export default {
   name: "FilmView",
+  components: {MovieForm},
   props: ['id'],
   data() {
     return {
