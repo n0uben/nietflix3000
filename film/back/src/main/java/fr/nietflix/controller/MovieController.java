@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin
 public class MovieController {
 
-    private MovieService movieService;
+    private final MovieService movieService;
 
     public MovieController(MovieService movieService) {
         this.movieService = movieService;
@@ -38,29 +38,30 @@ public class MovieController {
     }
 
     @MutationMapping
-    public Movie createMovie(@Argument String nom, @Argument String description, @Argument String dateSortie, @Argument Integer duree) {
-        Movie movieToCreate = new Movie();
+    public Movie createMovie(@Argument Movie movie) {
+        Movie newMovie = new Movie();
 
-        movieToCreate.setNom(nom);
-        movieToCreate.setDescription(description);
-        movieToCreate.setDateSortie(dateSortie);
-        movieToCreate.setDuree(duree);
+        newMovie.setNom(movie.getNom());
+        newMovie.setDescription(movie.getDescription());
+        newMovie.setDateSortie(movie.getDateSortie());
+        newMovie.setDuree(movie.getDuree());
 
-        return this.movieService.create(movieToCreate);
+        return this.movieService.create(newMovie);
+
     }
 
     @MutationMapping
-    public Movie updateMovie(@Argument Long id, @Argument String nom, @Argument String description, @Argument String dateSortie, @Argument Integer duree) {
-        return this.movieService.findOne(id)
-                .map(movie -> {
-                    movie.setNom(nom);
-                    movie.setDescription(description);
-                    movie.setDateSortie(dateSortie);
-                    movie.setDuree(duree);
+    public Movie updateMovie(@Argument Movie movie) {
+        return this.movieService.findOne(movie.getId())
+                .map(movieBdd -> {
+                    movieBdd.setNom(movie.getNom());
+                    movieBdd.setDescription(movie.getDescription());
+                    movieBdd.setDateSortie(movie.getDateSortie());
+                    movieBdd.setDuree(movie.getDuree());
 
-                    this.movieService.update(movie);
+                    this.movieService.update(movieBdd);
 
-                    return movie;
+                    return movieBdd;
                 }).orElse(new Movie());
     }
 
