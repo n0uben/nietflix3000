@@ -1,6 +1,7 @@
 package fr.nietflix.model;
 
 import jakarta.persistence.*;
+import org.hibernate.Length;
 
 @Entity
 public class Movie {
@@ -12,7 +13,7 @@ public class Movie {
     @Column
     private String nom;
 
-    @Column
+    @Column(length = Length.LONG)
     private String description;
 
     @Column
