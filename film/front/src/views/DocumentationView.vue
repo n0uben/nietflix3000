@@ -41,7 +41,15 @@
         <h4>2.1.2 avec le nom</h4>
         <pre>
           <code>
-            a venir
+            query {
+              movieByNom(nom: "test") {
+                id
+                nom
+                description
+                dateSortie
+                duree
+              }
+            }
           </code>
         </pre>
 
