@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="container-fluid px-0">
+  <header class="container-fluid px-0 mb-4">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-2">
           <RouterLink to="/" class="navbar-brand">
             Nietflix Films backoffice
