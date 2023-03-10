@@ -27,7 +27,8 @@
             <input type="number" id="duree" class="form-control" name="duree" v-model="this.duree">
           </div>
 
-          <input type="submit" value="valider" class="btn btn-success">
+          <input type="submit" value="valider" class="btn btn-success"> -
+          <router-link to="/" class="ml-2 btn btn-danger">Retour</router-link>
         </form>
       </div>
     </div>
