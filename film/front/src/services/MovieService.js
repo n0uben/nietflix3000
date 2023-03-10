@@ -26,6 +26,21 @@ class MovieService {
         })
     }
 
+    create(film) {
+        return http.post("/graphql", {
+            query: `mutation {
+                        createMovie(movie: {
+                            nom: "${film.nom}",
+                            description: "${film.description}",
+                            dateSortie: "${film.dateSortie}",
+                            duree: ${film.duree}
+                        }) {
+                        id
+                        }
+                    }`
+        })
+    }
+
     update(film) {
         return http.post("/graphql", {
             query: `mutation {

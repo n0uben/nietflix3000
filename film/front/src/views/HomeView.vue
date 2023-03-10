@@ -44,7 +44,11 @@ export default {
 
     <div class="row">
       <div class="col-xl-10 col-md-12">
-        <h1>HomePage</h1>
+        <h1>Gestion des films</h1>
+
+        <div class="my-3">
+            <RouterLink class="btn btn-primary" to="/creer">Ajouter</RouterLink>
+        </div>
 
         <table class="table table-striped table-secondary">
           <thead>
