@@ -25,6 +25,16 @@ export default {
         console.error(e)
       }
     },
+    async supprimer(id) {
+      try {
+        const response = await movieService.delete(id);
+        if (response.status === 200) {
+          this.getAllMovies()
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 }
 </script>
@@ -52,7 +62,7 @@ export default {
               <td>
                 <RouterLink :to="{name: 'films', params: {id: film.id}}">modifier</RouterLink>
                 /
-                <RouterLink to="/films">supprimer</RouterLink>
+                <a href="#" @click="supprimer(film.id)">supprimer</a>
               </td>
             </tr>
           </tbody>

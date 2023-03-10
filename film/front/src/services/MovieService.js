@@ -7,8 +7,6 @@ class MovieService {
                         allMovies {
                             id
                             nom
-                            dateSortie
-                            duree
                         }
                     }`
         })
@@ -38,6 +36,16 @@ class MovieService {
                             dateSortie: "${film.dateSortie}",
                             duree: ${film.duree}
                         }) {
+                        id
+                        }
+                    }`
+        })
+    }
+
+    delete(id) {
+        return http.post("/graphql", {
+            query: `mutation {
+                        deleteMovie(id: ${id}) {
                         id
                         }
                     }`

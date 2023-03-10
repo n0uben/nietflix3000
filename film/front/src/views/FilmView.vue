@@ -4,7 +4,7 @@
       <div class="col">
         <h1>Modifier le film</h1>
 
-        <p class="text-success fw-bold" v-if="message">{{message}}</p>
+        <div class="alert alert-success fw-bold" role="alert" v-if="message">{{message}}</div>
         <form @submit.prevent="handleForm">
           <div class="form-group">
             <label for="titre">Titre</label>
@@ -22,7 +22,7 @@
             <input type="date" id="date" class="form-control" name="date" v-model="this.film.dateSortie">
           </div>
 
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label for="duree">Durée</label>
             <input type="number" id="duree" class="form-control" name="duree" v-model="this.film.duree">
           </div>
@@ -66,6 +66,8 @@ export default {
         } else {
           this.message = "Une erreur s'est produite !"
         }
+
+        setTimeout(() => this.message = '', 5000)
       })
     }
   }
