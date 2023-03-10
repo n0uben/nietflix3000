@@ -1,9 +1,8 @@
 package fr.nietflix.banque.controller;
 
+import fr.nietflix.banque.CreditCard;
 import fr.nietflix.banque.service.BanqueService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/banque")
@@ -15,8 +14,8 @@ public class BanqueController {
         this.banqueService = banqueService;
     }
 
-    @GetMapping
-    public String test() {
-        return this.banqueService.test();
+    @PostMapping
+    public boolean test(@RequestBody CreditCard creditCard) {
+        return this.banqueService.isVisaOrMastercard(creditCard.getNumber());
     }
 }
