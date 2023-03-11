@@ -5,17 +5,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class BanqueService {
 
-    private String CARDTEST1 = "0000 0000 0000 0000";
-    private String CARDTEST2 = "1111 1111 1111 1111";
+    private String cardtest1 = "0000 0000 0000 0000";
+    private String cardtest2 = "1111 1111 1111 1111";
 
     public boolean isVisaOrMastercard(String creditCardNumber) {
 
 
-        if (creditCardNumber.equals(CARDTEST1) || creditCardNumber.equals(CARDTEST2)) {
+        if (creditCardNumber.equals(cardtest1) || creditCardNumber.equals(cardtest2)) {
             return true;
         }
 
-        creditCardNumber = creditCardNumber.replaceAll("[^0-9]", "");
+        creditCardNumber = creditCardNumber.replaceAll("[\\D]", "");
 
         String reversedCreditCardNumber = new StringBuilder(creditCardNumber).reverse().toString();
 
