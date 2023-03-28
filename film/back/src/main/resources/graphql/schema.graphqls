@@ -5,7 +5,7 @@ type Movie {
     dateSortie: String
     duree: Int
     genre: String
-    image: String
+    imageUrl: String
 }
 
 input MovieInput {
@@ -14,6 +14,7 @@ input MovieInput {
     dateSortie: String
     duree: Int
     genre: String
+    imageUrl: String
 }
 
 input MovieInputWithId {
@@ -23,6 +24,7 @@ input MovieInputWithId {
     dateSortie: String
     duree: Int
     genre: String
+    imageUrl: String
 }
 
 type Query {
@@ -32,7 +34,7 @@ type Query {
 }
 
 type Mutation {
-    createMovieWithImage(movie: MovieInput): Movie
+    createMovie(movie: MovieInput): Movie
     updateMovie(movie: MovieInputWithId): Movie
     deleteMovie(id: ID!): Movie
 }

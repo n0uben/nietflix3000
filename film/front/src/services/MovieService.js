@@ -21,6 +21,8 @@ class MovieService {
                         description
                         dateSortie
                         duree
+                        genre
+                        imageUrl
                       }
                     }`
         })
@@ -33,7 +35,9 @@ class MovieService {
                             nom: "${film.nom}",
                             description: "${film.description}",
                             dateSortie: "${film.dateSortie}",
-                            duree: ${film.duree}
+                            duree: ${film.duree},
+                            genre: "${film.genre}",
+                            imageUrl: "${film.imageUrl}"
                         }) {
                         id
                         }

@@ -25,7 +25,7 @@ public class Movie {
     @Column
     private String genre;
 
-    @Column
+    @Column(length = Length.LONG)
     private String imageUrl;
 
     public Movie() {

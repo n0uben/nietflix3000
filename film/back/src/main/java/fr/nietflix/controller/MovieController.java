@@ -7,8 +7,6 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -48,6 +46,7 @@ public class MovieController {
         newMovie.setDateSortie(movie.getDateSortie());
         newMovie.setDuree(movie.getDuree());
         newMovie.setGenre(movie.getGenre());
+        newMovie.setImageUrl(movie.getImageUrl());
 
         return this.movieService.create(newMovie);
     }
