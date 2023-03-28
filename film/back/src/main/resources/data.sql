@@ -38,4 +38,14 @@ VALUES ('Creed 3',
         'Idole de la boxe et entouré de sa famille, Adonis Creed n’a plus rien à prouver. Jusqu’au jour où son ami d’enfance, Damian, prodige de la boxe lui aussi, refait surface. A peine sorti de prison, Damian est prêt à tout pour monter sur le ring et reprendre ses droits.'
         ,'2023-03-01', 117, 'Drame');
 
-
+INSERT INTO movie (nom, description, date_sortie, duree, genre) VALUES
+    ('Le Silence des Agneaux', 'Un agent du FBI doit demander l\'aide d\'un tueur en série cannibale pour attraper un autre tueur en série', '1991-02-14', 118, 'Thriller'),
+    ('Le Parrain', 'L\'histoire d\'une famille mafieuse italo-américaine', '1972-03-24', 175, 'Drame'),
+    ('La Liste de Schindler', 'Un homme d\'affaires allemand sauve la vie de nombreux Juifs pendant l\'Holocauste', '1993-12-15', 195, 'Drame historique'),
+    ('Le Roi Lion', 'L\'histoire d\'un jeune lion qui doit reprendre sa place de roi après la mort de son père', '1994-06-15', 88, 'Animation'),
+    ('Pulp Fiction', 'L\'histoire de plusieurs criminels de Los Angeles dont les histoires se croisent', '1994-05-21', 154, 'Comédie noire'),
+    ('Inception', 'Un voleur expérimenté doit implanter une idée dans l\'esprit d\'un PDG en utilisant la technologie de rêve', '2010-07-21', 148, 'Science-fiction'),
+    ('Whiplash', 'Un jeune batteur de jazz ambitieux est poussé à ses limites par son professeur sadique', '2014-10-10', 107, 'Drame'),
+    ('Gone Girl', 'Un homme devient le principal suspect dans la disparition de sa femme', '2014-10-01', 149, 'Thriller'),
+    ('La La Land', 'Une actrice et un pianiste de jazz tombent amoureux à Los Angeles', '2016-12-07', 128, 'Comédie musicale'),
+    ('Dunkerque', 'Les troupes alliées sont encerclées et évacuées de Dunkerque lors de la Seconde Guerre mondiale', '2017-07-19', 106, 'Drame historique');
