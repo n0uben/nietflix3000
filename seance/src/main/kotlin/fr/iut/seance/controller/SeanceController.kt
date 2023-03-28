@@ -52,4 +52,21 @@ class SeanceController(val seanceService: SeanceService) {
             }.orElse(ResponseEntity.notFound().build())
         }
     }
+
+    @PutMapping("/updatePlace/{id}/{nbPlace}")
+    fun update(@PathVariable id: Long?, @PathVariable nbPlace: Int): ResponseEntity<Seance?>? {
+        return id?.let { seanceService.getOne(it)
+            .map { s ->
+                s.date = s.date
+                s.horraireDebut = s.horraireDebut
+                s.horraireFin = s.horraireFin
+                s.idFilm = s.idFilm
+                s.idCinema = s.idCinema
+                s.idSalle = s.idSalle
+                s.placeDispo = s.placeDispo?.minus(nbPlace)
+                val seanceUpdated: Seance = seanceService.update(s)
+                ResponseEntity.ok(seanceUpdated)
+            }.orElse(ResponseEntity.notFound().build())
+        }
+    }
 }
