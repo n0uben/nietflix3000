@@ -5,7 +5,7 @@
         <h1>Créer un film</h1>
 
         <div class="alert alert-success fw-bold" role="alert" v-if="this.message">{{this.message}}</div>
-        <form @submit.prevent="handleForm">
+        <form @submit.prevent="handleForm" enctype="multipart/form-data">
           <div class="form-group">
             <label for="titre">Titre</label>
             <input type="text" id="titre" class="form-control" name="titre" v-model="this.nom">
@@ -27,6 +27,11 @@
             <input type="number" id="duree" class="form-control" name="duree" v-model="this.duree">
           </div>
 
+          <div class="form-group mb-3">
+            <label for="image">Durée</label>
+            <input type="file" id="image" class="form-control" name="image" @change="handleUpload">
+          </div>
+
           <input type="submit" value="valider" class="btn btn-success"> -
           <router-link to="/" class="ml-2 btn btn-danger">Retour</router-link>
         </form>
@@ -46,7 +51,8 @@ export default {
       description: '',
       dateSortie: 0,
       duree: 0,
-      message: ''
+      message: '',
+      image: null
     }
   },
   methods: {
@@ -55,17 +61,26 @@ export default {
         nom: this.nom,
         description: this.description,
         dateSortie: this.dateSortie,
-        duree: this.duree
+        duree: this.duree,
       };
 
-      movieService.create(film).then(response => {
-        if (response.status === 200) {
-          location.assign("/");
-        } else {
-          this.message = "une erreur s'est produite !"
-          setTimeout(() => this.message = "", 3000)
-        }
-      });
+      let formData = new FormData();
+      formData.append("film", film);
+      formData.append("image", this.image)
+
+      console.log(formData)
+
+      // movieService.create(film).then(response => {
+      //   if (response.status === 200) {
+      //     location.assign("/");
+      //   } else {
+      //     this.message = "une erreur s'est produite !"
+      //     setTimeout(() => this.message = "", 3000)
+      //   }
+      // });
+    },
+    handleUpload(event) {
+      this.image = event.target.files[0];
     }
   }
 }

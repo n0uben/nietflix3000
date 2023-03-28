@@ -22,6 +22,12 @@ public class Movie {
     @Column
     private Integer duree;
 
+    @Column
+    private String genre;
+
+    @Column
+    private String imageUrl;
+
     public Movie() {
     }
 
@@ -65,5 +71,19 @@ public class Movie {
         this.duree = duree;
     }
 
+    public String getGenre() {
+        return genre;
+    }
 
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
