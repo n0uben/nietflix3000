@@ -33,6 +33,7 @@
                 description
                 dateSortie
                 duree
+                genre
               }
             }
           </code>
@@ -48,6 +49,7 @@
                 description
                 dateSortie
                 duree
+                genre
               }
             }
           </code>
@@ -63,6 +65,7 @@
                     description
                     dateSortie
                     duree
+                    genre
                 }
             }
           </code>
@@ -78,6 +81,7 @@
                 description: "desc"
                 dateSortie: "2023"
                 duree: 90
+                genre: "le genre"
               })
               {
                 id
@@ -85,6 +89,7 @@
                 description
                 dateSortie
                 duree
+                genre
               }
             }
           </code>
@@ -100,6 +105,7 @@
                 description: "desc"
                 dateSortie: "1924"
                 duree: 90
+                genre: "le nouveau genre"
               })
               {
                 id
@@ -107,6 +113,7 @@
                 description
                 dateSortie
                 duree
+                genre
               }
             }
           </code>
