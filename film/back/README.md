@@ -33,6 +33,7 @@ query {
     description
     dateSortie
     duree
+    genre
   }
 }
 ```
@@ -47,6 +48,7 @@ movieByNom(nom: "test") {
     description
     dateSortie
     duree
+    genre
     }
 }
 ```
@@ -60,6 +62,7 @@ query listMovies {
         nom
         dateSortie
         duree
+        genre
     }
 }
 ```
@@ -79,8 +82,11 @@ mutation {
 
 ```
 mutation {
-updateMovie(id: 1, nom: "un bien bon film 2", description: "une nouvelle description", dateSortie: "1993", duree: 120) {
-id
+updateMovie(id: 1,
+            nom: "un bien bon film 2",
+            description: "une nouvelle description", dateSortie: "1993",
+            duree: 120, genre: "genre test") {
+            id
 }
 }
 ```
