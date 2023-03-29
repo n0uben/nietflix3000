@@ -1,0 +1,5 @@
+click==7.1.2
+flask==2.2.3
+Flask-SocketIO==5.1.0
+python-dotenv==0.17.1
+Werkzeug==2.1.1
