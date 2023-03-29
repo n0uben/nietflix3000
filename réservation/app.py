@@ -3,11 +3,31 @@ from flask_socketio import SocketIO, emit
 import json
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO()
+socketio.init_app(app, cors_allowed_origins="*")
 
 # Charger les données à partir d'un fichier JSON
 with open('cinemas.json', 'r') as f:
-    cinemas = json.load(f)
+    raw_data = json.load(f)
+    raw_cinemas = raw_data["cinemas"]
+    cinemas = []
+    for cinema in raw_cinemas:
+        formatted_cinema = {
+            'id': int(cinema['id']),
+            'nom': cinema['nom'],
+            'adresse': cinema['adresse'],
+            'code_postal': cinema['code_postal'],
+            'ville': cinema['ville'],
+            'salles': [
+                {
+                    'id': int(salle['id']),
+                    'nom': salle['nom'],
+                    'capacite': salle['capacite']
+                }
+                for salle in cinema['salles']
+            ]
+        }
+        cinemas.append(formatted_cinema)
 
 @socketio.on('get_all_cinemas')
 def get_all_cinemas():
@@ -36,7 +56,6 @@ def get_salle_by_id_and_cinema_id(data):
             emit('error', {'message': 'Salle not found'})
             return
     emit('error', {'message': 'Cinema not found'})
-
 
 if __name__ == '__main__':
     socketio.run(app)
