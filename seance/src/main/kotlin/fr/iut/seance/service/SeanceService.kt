@@ -15,6 +15,10 @@ class SeanceService(val seanceRepository: SeanceRepository) {
         return seanceRepository.findAll()
     }
 
+    fun getByIdCinema(idCinema : Int): MutableList<Seance> {
+        return seanceRepository.findByIdCinema(idCinema)
+    }
+
     fun create(seance: Seance): Seance {
         val seanceToCreate = Seance(seance.date,
                                     seance.horraireDebut,
