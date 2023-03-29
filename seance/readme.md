@@ -1,21 +1,21 @@
 # POUR CONFIGURER LE PROJET :
 
-##Prérequis :
+## Prérequis :
 - Creer un nouveau schéma de base de donnée sur votre serveur.
 - Dans le dossier ./src/main/ressources créer un fichier nommé `application.properties`.
 - Copier/coller le contenu du template `application.properties_template` du dossier templates.
 - Remplacer l'url, l'username et le password par ceux votre base de donnée.
 - ▶️ Run le fichier `SeanceApplication.kt`, le serveur REST se lance et créera/mettra à jour les tables de votre base de donnée.
 
-#Chemins de l'API : 
+# Chemins de l'API : 
 ##GET ALL
 `/seance`
 
-##GET ONE
+## GET ONE
 `/seance/{id}` <br>
 {id} correspond à l'id de la séance
 
-##CREATE
+## CREATE
 `/seance/create`
 
 **JSON Body :**
@@ -31,7 +31,7 @@
 }
   ```
 
-##UPDATE
+## UPDATE
 `/seance/update/{id}` <br>
 {id} correspond à l'id de la séance
 
@@ -48,12 +48,12 @@
 }
   ```
 
-##UPDATE PLACE NUMBER
+## UPDATE PLACE NUMBER
 `/seance/updatePlace/{id}/{nbPlace}` <br>
 {id} correspond à l'id de la séance <br>
 {nbPlace} correspond aux nombre de places qui viennent d'être réservée et qu'il faut donc soustraire aux places disponibles
 
-##DELETE
+## DELETE
 `/seance/delete/{id}` <br>
 {id} correspond à l'id de la séance <br>
 
