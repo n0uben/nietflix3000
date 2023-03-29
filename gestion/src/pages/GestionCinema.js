@@ -10,7 +10,7 @@ const GestionCinema = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`localhost:8080/seance`);
+                const response = await axios.get(`http://localhost:8080/seance`);
                 setSeances(response.data);
             } catch (error) {
                 console.error('Erreur lors de la récupération des séances:', error);

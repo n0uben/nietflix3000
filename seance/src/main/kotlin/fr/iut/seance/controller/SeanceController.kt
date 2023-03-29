@@ -5,6 +5,7 @@ import fr.iut.seance.service.SeanceService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@CrossOrigin
 @RestController
 @RequestMapping("/seance")
 class SeanceController(val seanceService: SeanceService) {
