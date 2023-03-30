@@ -33,6 +33,15 @@ with open('cinemas.json', 'r') as f:
 def get_all_cinemas():
     emit('cinema_list', {'cinemas': cinemas})
 
+@socketio.on('get_cinema_by_id')
+def get_cinema_by_id(data):
+    cinema_id = data['cinema_id']
+    for cinema in cinemas:
+        if cinema['id'] == cinema_id:
+            emit('cinema_info', {'id': cinema['id'], 'nom': cinema['nom'], 'adresse': cinema['adresse'], 'code_postal': cinema['code_postal'], 'ville': cinema['ville']})
+            return
+    emit('error', {'message': 'Cinema not found'})
+
 @socketio.on('get_salle_by_cinema_id')
 def get_salle_by_cinema_id(data):
     cinema_id = data['cinema_id']
