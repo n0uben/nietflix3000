@@ -117,14 +117,14 @@ socket.on('error', function(data) {
 });
 ```
 
-### update_seance
+### update_place_seance
 
 Cette fonction permet de mettre à jour le nombre de places disponibles dans une séance en envoyant un événement WebSocket à l'API. L'API appellera ensuite une API REST externe pour effectuer la mise à jour.
 
 ```javascript
 const seanceId = 1; // Remplacer par l'ID de la séance souhaitée
 const placesAEnlever = 5; // Remplacer par le nombre de places à enlever
-socket.emit('update_seance', { id: seanceId, places_a_enlever: placesAEnlever });
+socket.emit('update_place_seance', { id: seanceId, places_a_enlever: placesAEnlever });
 socket.on('update_success', function(data) {
     console.log('Mise à jour réussie:', data);
 });

@@ -75,23 +75,21 @@ def get_salle_by_id_and_cinema_id(data):
     emit('error', {'message': 'Cinema introuvable'})
 
 # Mettre à jour une seance en appelant une API REST extern
-@socketio.on('update_seance')
+@socketio.on('update_place_seance')
 def update_seance(data):
-    item_id = data['id']
+    seance_id = data['id']
     places_a_enlever = data['places_a_enlever']
-    api_url = f'https://localhost:8080/update/{item_id}'
-
-    # Récupérer les données à partir de l'événement WebSocket pour les transférer à l'API REST
-    payload = {'places_a_enlever': places_a_enlever}
+    api_url = f'https://localhost:8080/seance/updatePlace/{seance_id}/{places_a_enlever}'
 
     # Appeler l'API REST en utilisant la méthode PUT
-    response = requests.put(api_url, json=payload)
+    response = requests.put(api_url)
 
     # Vérifier si la requête a réussi
     if response.status_code == 200:
         emit('update_success', {'message': 'Mise à jour réussie'})
     else:
         emit('update_error', {'error': 'Une erreur s\'est produite lors de la mise à jour de l\'API REST.'})
+
 
 # Vérifier la validité d'une carte bancaire en utilisant l'API bancaire
 @socketio.on('check_bank_card')
