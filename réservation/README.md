@@ -96,6 +96,8 @@ socket.on('salle_list', function(data) {
 
 ### get_salle_by_id_and_cinema_id
 
+Récupère les informations d'une salle spécifique en fonction de son ID et de l'ID du cinéma.
+
 ```javascript
 const cinemaId = 1; // Remplacer par l'ID du cinéma souhaité
 const salleId = 1; // Remplacer par l'ID de la salle souhaitée
@@ -105,7 +107,41 @@ socket.on('salle_info', function(data) {
 });
 ```
 
+### Mise à jour d'une séance (update_seance)
+
+Cette fonction permet de mettre à jour le nombre de places disponibles dans une séance en envoyant un événement WebSocket à l'API. L'API appellera ensuite une API REST externe pour effectuer la mise à jour.
+
+#### Requête
+
+Pour mettre à jour une séance, envoyez un événement WebSocket `update_seance` avec les données suivantes :
+
+```json
+{
+  "id": "l'ID de la séance",
+  "places_a_enlever": "le nombre de places à enlever"
+}
+```
+
+#### Réponse
+Si la mise à jour réussit, l'API enverra un événement WebSocket update_success avec les données suivantes :
+
+```json
+{
+  "message": "Mise à jour réussie"
+}
+```	
+
+En cas d'échec de la mise à jour, l'API enverra un événement WebSocket update_error avec les données suivantes :
+
+```json
+{
+  "error": "Une erreur s'est produite lors de la mise à jour de l'API REST."
+}
+```
+
 ### Gestions des erreurs
+
+Si l'ID du cinéma ou de la salle n'est pas trouvé, l'API renverra un message d'erreur :
 
 ```javascript
 socket.on('error', function(data) {

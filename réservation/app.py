@@ -2,6 +2,7 @@ from flask import Flask
 from flask_socketio import SocketIO, emit
 import json
 import os 
+import requests
 
 app = Flask(__name__)
 socketio = SocketIO()
@@ -32,10 +33,12 @@ with open(cinemas_file_path, 'r') as f:
         }
         cinemas.append(formatted_cinema)
 
+# Récupérer la liste de tous les cinémas
 @socketio.on('get_all_cinemas')
 def get_all_cinemas():
     emit('cinema_list', {'cinemas': cinemas})
 
+# Récupérer les informations d'un cinéma spécifique en fonction de son identifiant
 @socketio.on('get_cinema_by_id')
 def get_cinema_by_id(data):
     cinema_id = data['cinema_id']
@@ -43,8 +46,9 @@ def get_cinema_by_id(data):
         if cinema['id'] == cinema_id:
             emit('cinema_info', {'id': cinema['id'], 'nom': cinema['nom'], 'adresse': cinema['adresse'], 'code_postal': cinema['code_postal'], 'ville': cinema['ville']})
             return
-    emit('error', {'message': 'Cinema not found'})
+    emit('error', {'message': 'Cinema introuvable'})
 
+# Récupérer la liste des salles d'un cinéma spécifique en fonction de son identifiant
 @socketio.on('get_salle_by_cinema_id')
 def get_salle_by_cinema_id(data):
     cinema_id = data['cinema_id']
@@ -53,8 +57,9 @@ def get_salle_by_cinema_id(data):
             salles = [{'id': salle['id'], 'nom': salle['nom'], 'capacite': salle['capacite']} for salle in cinema['salles']]
             emit('salle_list', {'salles': salles})
             return
-    emit('error', {'message': 'Cinema not found'})
+    emit('error', {'message': 'Cinema introuvable'})
 
+# Récupérer les informations d'une salle spécifique en fonction de son identifiant et de l'identifiant du cinéma
 @socketio.on('get_salle_by_id_and_cinema_id')
 def get_salle_by_id_and_cinema_id(data):
     cinema_id = data['cinema_id']
@@ -65,9 +70,28 @@ def get_salle_by_id_and_cinema_id(data):
                 if salle['id'] == salle_id:
                     emit('salle_info', {'id': salle['id'], 'nom': salle['nom'], 'capacite': salle['capacite'], 'cinema': {'id': cinema['id'], 'nom': cinema['nom']}})
                     return
-            emit('error', {'message': 'Salle not found'})
+            emit('error', {'message': 'Salle introuvable'})
             return
-    emit('error', {'message': 'Cinema not found'})
+    emit('error', {'message': 'Cinema introuvable'})
+
+# Mettre à jour une seance en appelant une API REST extern
+@socketio.on('update_seance')
+def update_seance(data):
+    item_id = data['id']
+    places_a_enlever = data['places_a_enlever']
+    api_url = f'https://localhost:8080/update/{item_id}'
+
+    # Récupérer les données à partir de l'événement WebSocket pour les transférer à l'API REST
+    payload = {'places_a_enlever': places_a_enlever}
+
+    # Appeler l'API REST en utilisant la méthode PUT
+    response = requests.put(api_url, json=payload)
+
+    # Vérifier si la requête a réussi
+    if response.status_code == 200:
+        emit('update_success', {'message': 'Mise à jour réussie'})
+    else:
+        emit('update_error', {'error': 'Une erreur s\'est produite lors de la mise à jour de l\'API REST.'})
 
 if __name__ == '__main__':
     socketio.run(app)
