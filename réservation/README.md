@@ -117,7 +117,7 @@ socket.on('error', function(data) {
 });
 ```
 
-### Mise à jour d'une séance (update_seance)
+### update_seance
 
 Cette fonction permet de mettre à jour le nombre de places disponibles dans une séance en envoyant un événement WebSocket à l'API. L'API appellera ensuite une API REST externe pour effectuer la mise à jour.
 
@@ -135,7 +135,7 @@ socket.on('update_error', function(data) {
 
 Utilisez ce code pour mettre à jour une séance en appelant l'API REST externe en spécifiant l'ID de la séance et le nombre de places à enlever. La fonction écoutera les événements 'update_success' et 'update_error' pour gérer les résultats de la mise à jour.
 
-## check_bank_card
+### check_bank_card
 
 Vérifie la validité d'une carte bancaire en utilisant l'API bancaire.
 
