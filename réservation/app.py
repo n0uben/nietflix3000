@@ -76,10 +76,10 @@ def get_salle_by_id_and_cinema_id(data):
 
 # Mettre à jour une seance en appelant une API REST extern
 @socketio.on('update_place_seance')
-def update_seance(data):
+def update_place_seance(data):
     seance_id = data['id']
     places_a_enlever = data['places_a_enlever']
-    api_url = f'https://localhost:8080/seance/updatePlace/{seance_id}/{places_a_enlever}'
+    api_url = f'http://localhost:8080/seance/updatePlace/{seance_id}/{places_a_enlever}'
 
     # Appeler l'API REST en utilisant la méthode PUT
     response = requests.put(api_url)
