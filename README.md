@@ -17,4 +17,5 @@ Projet à réaliser dans le cadre du cours d'applications réparties de la LP G�
 1. java
 2. C#
 3. SQL
+4. Python
 
