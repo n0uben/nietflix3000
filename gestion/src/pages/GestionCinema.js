@@ -1,47 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import {useParams} from 'react-router-dom';
-import axios from 'axios';
+import SeanceService from '../services/SeanceService';
 import Seance from '../components/Seance.js';
 import allCinemas from "../data-test/cinemas.json"
-import UpdateSeance from '../components/UpdateSeance.js';
 
 const GestionCinema = () => {
-    const [showUpdateSeanceModal, setShowUpdateSeanceModal] = useState(false);
-    const [selectedSeance, setSelectedSeance] = useState(null);
-    const handleUpdateSeance = (seance) => {
-        setSelectedSeance(seance);
-        setShowUpdateSeanceModal(true);
-    };
     const[cinemas, setCinemas] = useState([])
-    let { cinemaId } = useParams();
     const [seances, setSeances] = useState([]);
+    const [currentCinemaId, setCurrentCinemaId] = useState([]);
+    const onCinemaTabClick = (cinemaId) => {
+        setCurrentCinemaId(cinemaId);
+    };
 
     useEffect(() => {
         // axios
         //   .get ("https://urlapi/cinema/all%22)
         //   .then ((res) => setCinemas (res.data));
         setCinemas(allCinemas.data);
+        setCurrentCinemaId(allCinemas.data[0]?.id || null);
     }, []);
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/seance/byCinema/${parseInt(cinemaId)}`);
-                setSeances(response.data);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des séances:', error);
+            const seancesByCinema = await SeanceService.getSeancesByCinema(currentCinemaId);
+            if (seancesByCinema) {
+                setSeances(seancesByCinema);
             }
         };
 
         fetchData();
-    }, [cinemaId]);
+    }, [currentCinemaId]);
 
-
-    const currentCinema = cinemas.find((cinema) => cinema.id === parseInt(cinemaId));
     return (
         <div>
             <h1>Gestion Cinéma</h1>
-            {currentCinema && <h2>{currentCinema.nom}</h2>}
+
+            <div>
+                <ul className="nav nav-pills justify-content-center">
+                    {cinemas.map((cinema) => (
+                      <li key={cinema.id} className="nav-item cursor-pointer" onClick={() => onCinemaTabClick(cinema.id)}>
+                          <h1 className={`nav-link ${currentCinemaId === cinema.id ? 'active' : ''}`}>
+                              {cinema.nom}
+                          </h1>
+                      </li>
+                    ))}
+                </ul>
+            </div>
+
             <table className="table table-dark table-striped">
                 <thead>
                 <tr>
@@ -58,17 +62,10 @@ const GestionCinema = () => {
                 </thead>
                 <tbody>
                 {seances.map((seance) => (
-                    <Seance key={seance.idSeance} {...seance} onUpdate={() => handleUpdateSeance(seance)} />
+                    <Seance key={seance.idSeance} {...seance}/>
                 ))}
                 </tbody>
             </table>
-            {showUpdateSeanceModal && (
-                    <UpdateSeance
-                        seance={selectedSeance}
-                        onClose={() => setShowUpdateSeanceModal(false)}
-                    />
-                )
-            }
         </div>
     );
 };

@@ -9,7 +9,6 @@ const Seance = ({
                       idCinema,
                       idSalle,
                       placeDispo,
-                      onUpdate,
                   }) => {
 
     return (
@@ -21,17 +20,11 @@ const Seance = ({
             <td>{date}</td>
             <td>{placeDispo}</td>
             <td>
-                <button className="btn btn-outline-warning btn-sm" onClick={() => setShowUpdateModal(true)}>
-                    Update
-                </button>
+                <button className="btn btn-outline-warning btn-sm">Update</button>
                 <button className="btn btn-outline-danger btn-sm">Delete</button>
-                {showUpdateModal && (
-                    <UpdateSeance seance={{ idSeance, idFilm, idCinema, idSalle, date, horraireDebut, horraireFin, placeDispo }} onUpdate={onUpdate} onClose={() => setShowUpdateModal(false)} />
-                )}
             </td>
         </tr>
     );
 };
 
-  
 export default Seance;
