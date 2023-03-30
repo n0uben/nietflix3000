@@ -106,7 +106,7 @@ def check_bank_card(data):
     # Vérifier si la requête a réussi
     if response.status_code == 200:
         result = response.json()
-        emit('card_check_result', {'is_valid': result['valid']})
+        emit('card_check_result', {'is_valid': result})
     else:
         emit('card_check_error', {'error': "Une erreur s'est produite lors de la vérification de la carte bancaire"})
 
