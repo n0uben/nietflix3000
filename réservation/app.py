@@ -1,13 +1,16 @@
 from flask import Flask
 from flask_socketio import SocketIO, emit
 import json
+import os 
 
 app = Flask(__name__)
 socketio = SocketIO()
 socketio.init_app(app, cors_allowed_origins="*")
 
 # Charger les données à partir d'un fichier JSON
-with open('cinemas.json', 'r') as f:
+cinemas_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cinemas.json')
+
+with open(cinemas_file_path, 'r') as f:
     raw_data = json.load(f)
     raw_cinemas = raw_data["cinemas"]
     cinemas = []
