@@ -107,38 +107,6 @@ socket.on('salle_info', function(data) {
 });
 ```
 
-### Mise à jour d'une séance (update_seance)
-
-Cette fonction permet de mettre à jour le nombre de places disponibles dans une séance en envoyant un événement WebSocket à l'API. L'API appellera ensuite une API REST externe pour effectuer la mise à jour.
-
-#### Requête
-
-Pour mettre à jour une séance, envoyez un événement WebSocket `update_seance` avec les données suivantes :
-
-```json
-{
-  "id": "l'ID de la séance",
-  "places_a_enlever": "le nombre de places à enlever"
-}
-```
-
-#### Réponse
-Si la mise à jour réussit, l'API enverra un événement WebSocket update_success avec les données suivantes :
-
-```json
-{
-  "message": "Mise à jour réussie"
-}
-```	
-
-En cas d'échec de la mise à jour, l'API enverra un événement WebSocket update_error avec les données suivantes :
-
-```json
-{
-  "error": "Une erreur s'est produite lors de la mise à jour de l'API REST."
-}
-```
-
 ### Gestions des erreurs
 
 Si l'ID du cinéma ou de la salle n'est pas trouvé, l'API renverra un message d'erreur :
@@ -148,3 +116,22 @@ socket.on('error', function(data) {
     console.log('Error:', data.message);
 });
 ```
+
+### Mise à jour d'une séance (update_seance)
+
+Cette fonction permet de mettre à jour le nombre de places disponibles dans une séance en envoyant un événement WebSocket à l'API. L'API appellera ensuite une API REST externe pour effectuer la mise à jour.
+
+```javascript
+const seanceId = 1; // Remplacer par l'ID de la séance souhaitée
+const placesAEnlever = 5; // Remplacer par le nombre de places à enlever
+socket.emit('update_seance', { id: seanceId, places_a_enlever: placesAEnlever });
+socket.on('update_success', function(data) {
+    console.log('Mise à jour réussie:', data);
+});
+socket.on('update_error', function(data) {
+    console.log('Erreur lors de la mise à jour:', data);
+});
+```
+
+Utilisez ce code pour mettre à jour une séance en appelant l'API REST externe en spécifiant l'ID de la séance et le nombre de places à enlever. La fonction écoutera les événements 'update_success' et 'update_error' pour gérer les résultats de la mise à jour.
+
