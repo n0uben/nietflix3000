@@ -119,7 +119,7 @@ socket.on('error', function(data) {
 
 ### update_place_seance
 
-/!\ ATTENTION /!\ : Le pare-feu de votre ordinateur peut bloquer la communication local entre cette API et l'API Séance . Si vous rencontrez des problèmes, désactivez le pare-feu temporairement.
+/!\ ATTENTION /!\ : Le pare-feu de votre ordinateur peut bloquer la communication locale entre cette API et l'API Séance . Si vous rencontrez des problèmes, désactivez le pare-feu temporairement.
 
 Cette fonction permet de mettre à jour le nombre de places disponibles dans une séance en envoyant un événement WebSocket à l'API. L'API appellera ensuite une API REST externe pour effectuer la mise à jour.
 
