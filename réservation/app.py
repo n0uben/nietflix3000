@@ -93,5 +93,25 @@ def update_seance(data):
     else:
         emit('update_error', {'error': 'Une erreur s\'est produite lors de la mise à jour de l\'API REST.'})
 
+# Vérifier la validité d'une carte bancaire en utilisant l'API bancaire
+@socketio.on('check_bank_card')
+def check_bank_card(data):
+    card_number = data['number']
+    api_url = 'http://localhost:8082/banque'
+
+    # Préparer les données à envoyer à l'API bancaire
+    payload = {'number': card_number}
+
+    # Appeler l'API bancaire en utilisant la méthode POST
+    response = requests.post(api_url, json=payload)
+
+    # Vérifier si la requête a réussi
+    if response.status_code == 200:
+        result = response.json()
+        emit('card_check_result', {'is_valid': result['valid']})
+    else:
+        emit('card_check_error', {'error': "Une erreur s'est produite lors de la vérification de la carte bancaire"})
+
+
 if __name__ == '__main__':
     socketio.run(app)
