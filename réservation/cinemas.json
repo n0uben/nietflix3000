@@ -1,121 +1,120 @@
 {
-    "cinemas": [
-      {
-        "id": 1,
-        "nom": "Cinema A",
-        "adresse": "10 Rue des Cinéastes",
-        "code_postal": "75001",
-        "ville": "Paris",
-        "salles": [
-          {
-            "id": 1,
-            "nom": "Salle 1",
-            "capacite": 100
-          },
-          {
-            "id": 2,
-            "nom": "Salle 2",
-            "capacite": 80
-          },
-          {
-            "id": 3,
-            "nom": "Salle 3",
-            "capacite": 120
-          },
-          {
-            "id": 4,
-            "nom": "Salle 4",
-            "capacite": 90
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "nom": "Cinema B",
-        "adresse": "15 Avenue des Films",
-        "code_postal": "69002",
-        "ville": "Lyon",
-        "salles": [
-          {
-            "id": 1,
-            "nom": "Salle 1",
-            "capacite": 90
-          },
-          {
-            "id": 2,
-            "nom": "Salle 2",
-            "capacite": 70
-          },
-          {
-            "id": 3,
-            "nom": "Salle 3",
-            "capacite": 110
-          },
-          {
-            "id": 4,
-            "nom": "Salle 4",
-            "capacite": 100
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "nom": "Cinema C",
-        "adresse": "20 Rue du Cinéma",
-        "code_postal": "33000",
-        "ville": "Bordeaux",
-        "salles": [
-          {
-            "id": 1,
-            "nom": "Salle 1",
-            "capacite": 80
-          },
-          {
-            "id": 2,
-            "nom": "Salle 2",
-            "capacite": 100
-          },
-          {
-            "id": 3,
-            "nom": "Salle 3",
-            "capacite": 90
-          },
-          {
-            "id": 4,
-            "nom": "Salle 4",
-            "capacite": 120
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "nom": "Cinema D",
-        "adresse": "5 Place du Cinema",
-        "code_postal": "44000",
-        "ville": "Nantes",
-        "salles": [
-          {
-            "id": 1,
-            "nom": "Salle 1",
-            "capacite": 110
-          },
-          {
-            "id": 2,
-            "nom": "Salle 2",
-            "capacite": 120
-          },
-          {
-            "id": 3,
-            "nom": "Salle 3",
-            "capacite": 80
-          },
-          {
-            "id": 4,
-            "nom": "Salle 4",
-            "capacite": 70
-          }
-        ]
-      }
-    ]
-  }
-  
+  "cinemas": [
+    {
+      "id": 1,
+      "nom": "Kinepolis Thionville",
+      "adresse": "50 Route de Arlon",
+      "code_postal": "57100",
+      "ville": "Thionville",
+      "salles": [
+        {
+          "id": 1,
+          "nom": "Salle 1",
+          "capacite": 200
+        },
+        {
+          "id": 2,
+          "nom": "Salle 2",
+          "capacite": 150
+        },
+        {
+          "id": 3,
+          "nom": "Salle 3",
+          "capacite": 180
+        },
+        {
+          "id": 4,
+          "nom": "Salle 4",
+          "capacite": 120
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nom": "Kinepolis Saint-Julien",
+      "adresse": "10 Avenue Paul Langevin",
+      "code_postal": "57070",
+      "ville": "Metz",
+      "salles": [
+        {
+          "id": 1,
+          "nom": "Salle 1",
+          "capacite": 220
+        },
+        {
+          "id": 2,
+          "nom": "Salle 2",
+          "capacite": 160
+        },
+        {
+          "id": 3,
+          "nom": "Salle 3",
+          "capacite": 190
+        },
+        {
+          "id": 4,
+          "nom": "Salle 4",
+          "capacite": 130
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nom": "UGC Metz",
+      "adresse": "3 Rue du Saulcy",
+      "code_postal": "57000",
+      "ville": "Metz",
+      "salles": [
+        {
+          "id": 1,
+          "nom": "Salle 1",
+          "capacite": 210
+        },
+        {
+          "id": 2,
+          "nom": "Salle 2",
+          "capacite": 140
+        },
+        {
+          "id": 3,
+          "nom": "Salle 3",
+          "capacite": 170
+        },
+        {
+          "id": 4,
+          "nom": "Salle 4",
+          "capacite": 110
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nom": "UGC Ludres",
+      "adresse": "1 Rue Michel Ney",
+      "code_postal": "54710",
+      "ville": "Ludres",
+      "salles": [
+        {
+          "id": 1,
+          "nom": "Salle 1",
+          "capacite": 230
+        },
+        {
+          "id": 2,
+          "nom": "Salle 2",
+          "capacite": 170
+        },
+        {
+          "id": 3,
+          "nom": "Salle 3",
+          "capacite": 200
+        },
+        {
+          "id": 4,
+          "nom": "Salle 4",
+          "capacite": 130
+        }
+      ]
+    }
+  ]
+}
