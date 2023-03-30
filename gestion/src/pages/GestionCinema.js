@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import SeanceService from '../services/SeanceService';
 import Seance from '../components/Seance.js';
+import CreateSeanceModal from '../components/CreateSeanceModal.js';
 import allCinemas from "../data-test/cinemas.json"
+import allFilms from "../data-test/films.json"
 
 const GestionCinema = () => {
-    const[cinemas, setCinemas] = useState([])
+    const[cinemas, setCinemas] = useState([]);
+    const[films, setFilms] = useState([]);
     const [seances, setSeances] = useState([]);
     const [currentCinemaId, setCurrentCinemaId] = useState([]);
     const onCinemaTabClick = (cinemaId) => {
         setCurrentCinemaId(cinemaId);
     };
+
+    const [showCreateModal, setShowCreateModal] = useState(false);
+
+    useEffect(() => {
+        setFilms(allFilms.data);
+    }, []);
 
     useEffect(() => {
         // axios
@@ -56,7 +65,7 @@ const GestionCinema = () => {
                     <th>Date</th>
                     <th>Places disponibles</th>
                     <th>
-                        <button className="btn btn-outline-info btn-sm">Add</button>
+                        <button className="btn btn-outline-info btn-sm" onClick={() => setShowCreateModal(true)}>Add</button>
                     </th>
                 </tr>
                 </thead>
@@ -66,6 +75,14 @@ const GestionCinema = () => {
                 ))}
                 </tbody>
             </table>
+
+            <CreateSeanceModal
+              show={showCreateModal}
+              onHide={() => setShowCreateModal(false)}
+              currentCinemaId={currentCinemaId}
+              cinemas={cinemas}
+              films={films}
+            />
         </div>
     );
 };
