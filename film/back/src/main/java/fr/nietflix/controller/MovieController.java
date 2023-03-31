@@ -38,7 +38,7 @@ public class MovieController {
     }
 
     @MutationMapping
-    public Movie createMovie(@Argument Movie movie){
+    public Movie createMovie(@Argument Movie movie) {
         Movie newMovie = new Movie();
 
         newMovie.setNom(movie.getNom());
@@ -60,6 +60,7 @@ public class MovieController {
                     movieBdd.setDateSortie(movie.getDateSortie());
                     movieBdd.setDuree(movie.getDuree());
                     movieBdd.setGenre(movie.getGenre());
+                    movieBdd.setImageUrl(movie.getImageUrl());
 
                     this.movieService.update(movieBdd);
 

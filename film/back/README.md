@@ -1,6 +1,6 @@
 # Back netflix films
 
-Cette documentation montre les requêtes possibles sur l'API graphql Nietflix Films.
+Cette documentation montre les requêtes possibles sur l'API graphql Nietflix Films ainsi que la configuration du projet.
 
 1\. Plus d'infos
 ----------------
@@ -11,7 +11,7 @@ la [documentation officielle](https://graphql.org/graphql-js/mutations-and-input
 A noter : l'endpoint pour vos requêtes sur l'api est : `http://localhost:8081/graphql` (à ne pas confondre avec
 l'adresse du bac à sable de test)
 
-2.Les requêtes disponibles
+2\. Les requêtes disponibles
 --------------------------
 
 Pour tester l'api graphql, suivre les étapes suivantes :
@@ -34,6 +34,7 @@ query {
     dateSortie
     duree
     genre
+    imageUrl
   }
 }
 ```
@@ -49,6 +50,7 @@ movieByNom(nom: "test") {
     dateSortie
     duree
     genre
+    imageUrl
     }
 }
 ```
@@ -60,9 +62,11 @@ query listMovies {
     allMovies {
         id
         nom
+        description
         dateSortie
         duree
         genre
+        imageUrl
     }
 }
 ```
@@ -71,8 +75,10 @@ query listMovies {
 
 ```
 mutation {
-    createMovie(nom: "un bien bon film", description: "la description", dateSortie: "1992", duree: 120) 
-    {
+    createMovie(nom: "un bien bon film",
+        description: "la description",
+        dateSortie: "1992", duree: 120,
+        genre: "le genre, imageUrl: "http://localhost:8081/uploads/masuperimage.png") {
         id
     }
 }
@@ -85,7 +91,7 @@ mutation {
 updateMovie(id: 1,
             nom: "un bien bon film 2",
             description: "une nouvelle description", dateSortie: "1993",
-            duree: 120, genre: "genre test") {
+            duree: 120, genre: "genre test", imageUrl: "http://localhost:8081/uploads/masuperimage.png") {
             id
 }
 }
@@ -99,3 +105,12 @@ deleteMovie(id: 1) {
 id
 }
 }
+```
+
+## 3. Configuration et lancement du projet
+
+Pour lancer le projet :
+1. créer une base de données mysql
+2. modifier les 3 premieres lignes du fichier "application.properties" avec vos informations de connexion à la base de données créée.
+
+A noter : si vous créez une BDD nommée "nietflixfilms" sur un wamp par défaut, vous pouvez sauter l'étape 2.
