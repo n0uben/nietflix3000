@@ -9,15 +9,19 @@ const Seance = ({
                       idCinema,
                       idSalle,
                       placeDispo,
+                      films
                   }) => {
+  // eslint-disable-next-line
+  const film = films.find((film) => film.id == idFilm);
+  const filmName = film ? film.nom : '';
 
     return (
         <tr>
             <td>{idSalle}</td>
-            <td>{idFilm}</td>
+            <td>{filmName}</td>
+            <td>{date}</td>
             <td>{horraireDebut}</td>
             <td>{horraireFin}</td>
-            <td>{date}</td>
             <td>{placeDispo}</td>
             <td>
                 <button className="btn btn-outline-warning btn-sm">Update</button>

@@ -6,8 +6,8 @@ import allCinemas from "../data-test/cinemas.json"
 import allFilms from "../data-test/films.json"
 
 const GestionCinema = () => {
-    const[cinemas, setCinemas] = useState([]);
-    const[films, setFilms] = useState([]);
+    const [cinemas, setCinemas] = useState([]);
+    const [films, setFilms] = useState([]);
     const [seances, setSeances] = useState([]);
     const [currentCinemaId, setCurrentCinemaId] = useState([]);
     const onCinemaTabClick = (cinemaId) => {
@@ -17,19 +17,20 @@ const GestionCinema = () => {
     const [showCreateModal, setShowCreateModal] = useState(false);
 
     useEffect(() => {
-        setFilms(allFilms.data);
+        setCinemas(allCinemas.data);
     }, []);
 
     useEffect(() => {
-        // axios
-        //   .get ("https://urlapi/cinema/all%22)
-        //   .then ((res) => setCinemas (res.data));
-        setCinemas(allCinemas.data);
-        setCurrentCinemaId(allCinemas.data[0]?.id || null);
+        setFilms(allFilms.data.allMovies);
     }, []);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!currentCinemaId || (Array.isArray(currentCinemaId) && currentCinemaId.length === 0)) {
+                setCurrentCinemaId(allCinemas.data[0]?.id || null);
+                return;
+            }
+
             const seancesByCinema = await SeanceService.getSeancesByCinema(currentCinemaId);
             if (seancesByCinema) {
                 setSeances(seancesByCinema);
@@ -38,6 +39,13 @@ const GestionCinema = () => {
 
         fetchData();
     }, [currentCinemaId]);
+
+    const refreshSeances = async () => {
+        const seancesByCinema = await SeanceService.getSeancesByCinema(currentCinemaId);
+        if (seancesByCinema) {
+            setSeances(seancesByCinema);
+        }
+    };
 
     return (
         <div>
@@ -60,9 +68,9 @@ const GestionCinema = () => {
                 <tr>
                     <th>Salle</th>
                     <th>Film</th>
+                    <th>Date</th>
                     <th>Début</th>
                     <th>Fin</th>
-                    <th>Date</th>
                     <th>Places disponibles</th>
                     <th>
                         <button className="btn btn-outline-info btn-sm" onClick={() => setShowCreateModal(true)}>Add</button>
@@ -71,7 +79,7 @@ const GestionCinema = () => {
                 </thead>
                 <tbody>
                 {seances.map((seance) => (
-                    <Seance key={seance.idSeance} {...seance}/>
+                    <Seance key={seance.idSeance} {...seance} films={films} />
                 ))}
                 </tbody>
             </table>
@@ -82,6 +90,7 @@ const GestionCinema = () => {
               currentCinemaId={currentCinemaId}
               cinemas={cinemas}
               films={films}
+              onSeanceCreated={refreshSeances}
             />
         </div>
     );

@@ -5,12 +5,17 @@ const localhost = `http://localhost:8080/`;
 class SeanceService {
 
   async getSeancesByCinema(cinemaId) {
-    try {
-      const response = await axios.get(`${localhost}seance/byCinema/${cinemaId}`);
-      return response.data;
-    } catch (error) {
-      console.error('Erreur lors de la récupération des séances:', error);
+    if (!cinemaId) {
+      console.error("getSeancesByCinema appelée sans idCinema", new Error().stack);
       return null;
+    } else {
+      try {
+        const response = await axios.get(`${localhost}seance/byCinema/${cinemaId}`);
+        return response.data;
+      } catch (error) {
+        console.error('Erreur lors de la récupération des séances:', error);
+        return null;
+      }
     }
   }
 
