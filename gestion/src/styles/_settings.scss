@@ -3,15 +3,19 @@
   cursor: pointer;
 }
 
+h1 {
+  color: #212529;
+}
+
 .nav-pills .nav-item .nav-link {
-  color: gray;
+  color: #212529;
   background-color: white;
   font-weight: bold;
 }
 
 .nav-pills .nav-item .nav-link.active {
   color: white;
-  background-color: black;
+  background-color: #212529;
 }
 
 .date-input-container {

@@ -100,16 +100,36 @@ const GestionCinema = () => {
                               <button className="btn btn-outline-info btn-sm" onClick={() => setShowCreateModal(true)}>Add</button>
                           </th>
                       </tr>
+                      <tr style={{ height: "20px" }} />
                       </thead>
                       <tbody>
-                      {seances.map((seance) => (
-                        <Seance key={seance.idSeance}
+                      {seances
+                        .sort((a, b) => {
+                            // Trie d'abord par salle
+                            if (a.idSalle !== b.idSalle) {
+                                return a.idSalle - b.idSalle;
+                            }
+
+                            // Si les salles sont les mêmes, trie par date
+                            const dateA = new Date(a.date);
+                            const dateB = new Date(b.date);
+                            return dateA - dateB;
+                        })
+                        .map((seance, index, sortedSeances) => (
+                          <>
+                              <Seance
+                                key={seance.idSeance}
                                 {...seance}
                                 films={films}
                                 onUpdateClick={handleUpdateClick}
                                 onDeleteClick={handleDeleteClick}
-                        />
-                      ))}
+                              />
+                                {index < sortedSeances.length - 1 &&
+                                sortedSeances[index].idSalle !== sortedSeances[index + 1].idSalle ? (
+                                  <tr style={{ height: "20px" }} /> // Ajoute un espace entre les groupes de séances d'une même salle
+                                ) : null}
+                          </>
+                        ))}
                       </tbody>
                   </table>
 

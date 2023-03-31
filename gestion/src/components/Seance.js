@@ -1,4 +1,5 @@
 import React from 'react';
+import DateTools from "../tools/DateTools";
 
 const Seance = ({
                       idSeance,
@@ -21,7 +22,7 @@ const Seance = ({
         <tr>
             <td>{idSalle}</td>
             <td>{filmName}</td>
-            <td>{date}</td>
+            <td>{DateTools.formatDate(date)}</td>
             <td>{horraireDebut}</td>
             <td>{horraireFin}</td>
             <td>{placeDispo}</td>
