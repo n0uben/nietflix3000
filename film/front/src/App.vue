@@ -10,7 +10,6 @@ import { RouterLink, RouterView } from 'vue-router'
           </RouterLink>
           <div class="navbar-nav">
               <RouterLink to="/" class="nav-item nav-link">Home</RouterLink>
-              <RouterLink to="/documentation" class="nav-item nav-link">Documentation</RouterLink>
           </div>
         </nav>
   </header>
@@ -25,5 +24,10 @@ import { RouterLink, RouterView } from 'vue-router'
 body {
   padding: 0;
   margin: 0;
+}
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 </style>

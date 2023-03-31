@@ -1,77 +1,120 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
-        <h1>Modifier le film</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>Modifier le film</h1>
 
-        <div class="alert alert-success fw-bold" role="alert" v-if="message">{{message}}</div>
-        <form @submit.prevent="handleForm">
-          <div class="form-group">
-            <label for="titre">Titre</label>
-            <input type="text" id="titre" class="form-control" name="titre" v-model="this.film.nom">
-          </div>
+                <div v-if="message" class="alert alert-success fw-bold" role="alert">{{ message }}</div>
+                <form @submit.prevent="handleForm">
+                    <div class="form-group">
+                        <label for="titre">Titre</label>
+                        <input id="titre" v-model="this.film.nom" class="form-control" name="titre" type="text">
+                    </div>
 
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" class="form-control" name="description" rows="3" v-model="this.film.description"></textarea>
-            <small id="descriptionHelp" class="form-text text-muted">Max 255 caractères</small>
-          </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" v-model="this.film.description" class="form-control" name="description"
+                                  rows="3"></textarea>
+                    </div>
 
-          <div class="form-group">
-            <label for="date">Date de sortie</label>
-            <input type="date" id="date" class="form-control" name="date" v-model="this.film.dateSortie">
-          </div>
+                    <div class="form-group">
+                        <label for="date">Date de sortie</label>
+                        <input id="date" v-model="this.film.dateSortie" class="form-control" name="date" type="date">
+                    </div>
 
-          <div class="form-group mb-3">
-            <label for="duree">Durée</label>
-            <input type="number" id="duree" class="form-control" name="duree" v-model="this.film.duree">
-          </div>
+                    <div class="form-group mb-3">
+                        <label for="duree">Durée</label>
+                        <input id="duree" v-model="this.film.duree" class="form-control" name="duree" type="number">
+                    </div>
 
-          <input type="submit" value="valider" class="btn btn-success"> -
-          <router-link to="/" class="btn btn-danger">Retour</router-link>
-        </form>
-      </div>
+                    <div class="form-group mb-3">
+                        <label for="genre">Genre</label>
+                        <input id="genre" v-model="this.film.genre" class="form-control" name="genre" required
+                               type="text">
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-1">
+                            <img :alt="this.film.nom" :src="this.film.imageUrl">
+                        </div>
+                        <div class="col-11">
+                            <p>Modifier l'image :</p>
+                            <input id="image" class="form-control" name="image" type="file" @change="handleUpload">
+                        </div>
+                    </div>
+
+                    <input class="btn btn-success" type="submit" value="valider"> -
+                    <router-link class="btn btn-danger" to="/">Retour</router-link>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 
 </template>
 
 <script>
 
 import movieService from "@/services/MovieService";
-export default {
-  name: "FilmView",
-  props: ['id'],
-  data() {
-    return {
-      'film': {},
-      message: ''
-    }
-  },
-  mounted() {
-    this.getFilm()
-  },
-  methods: {
-    async getFilm() {
-      try {
-        const response = await movieService.getOne(this.id)
-        this.film = response.data.data.movieById
-      } catch (e) {
-        console.error(e)
-      }
-    },
-    handleForm() {
-      movieService.update(this.film).then(response => {
-        if (response.status === 200) {
-          this.message = "Film modifié !"
-        } else {
-          this.message = "Une erreur s'est produite !"
-        }
+import uploadService from "@/services/UploadService";
 
-        setTimeout(() => this.message = '', 5000)
-      })
+export default {
+    name: "FilmView",
+    props: ['id'],
+    data() {
+        return {
+            'film': {},
+            image: null,
+            message: ''
+        }
+    },
+    mounted() {
+        this.getFilm()
+    },
+    methods: {
+        handleForm() {
+            if (this.image == null) {
+                movieService.update(this.film).then(response => {
+                    if (response.status === 200) {
+                        this.message = "Film modifié !"
+                    } else {
+                        this.message = "Une erreur s'est produite !"
+                    }
+
+                    setTimeout(() => this.message = '', 5000)
+                })
+            } else {
+                let formData = new FormData();
+                formData.append("image", this.image);
+
+                uploadService.upload(formData)
+                    .then(response => {
+
+                            this.film.imageUrl = response.data;
+
+                            movieService.update(this.film).then(response => {
+                                if (response.status === 200) {
+                                    this.message = "Film modifié !"
+                                } else {
+                                    this.message = "Une erreur s'est produite !"
+                                }
+
+                                setTimeout(() => this.message = '', 5000)
+                            })
+                        }
+                    )
+            }
+        },
+        async getFilm() {
+            try {
+                const response = await movieService.getOne(this.id)
+                this.film = response.data.data.movieById
+            } catch (e) {
+                console.error(e)
+            }
+        },
+        handleUpload(event) {
+            this.image = event.target.files[0];
+        }
     }
-  }
 }
 </script>
 

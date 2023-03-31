@@ -15,7 +15,6 @@
             <label for="description">Description</label>
             <textarea id="description" class="form-control" name="description" rows="3"
                       v-model="this.description" required></textarea>
-            <small id="descriptionHelp" class="form-text text-muted">Max 255 caractères</small>
           </div>
 
           <div class="form-group mb-3">
@@ -68,14 +67,11 @@ export default {
   methods: {
     handleForm() {
 
-
       let formData = new FormData();
       formData.append("image", this.image);
 
       uploadService.upload(formData)
           .then(response => {
-
-                console.log("url recuperee : " + response.data)
 
                 let film = {
                   nom: this.nom,

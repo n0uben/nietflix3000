@@ -51,6 +51,7 @@ export default {
         </div>
 
         <table class="table table-striped table-secondary">
+          <caption>Liste des films</caption>
           <thead>
             <tr>
               <th scope="col">#</th>
