@@ -25,6 +25,14 @@ const GestionCinema = () => {
         setShowUpdateModal(true);
     };
 
+    const handleDeleteClick = async (idSeance) => {
+        if (window.confirm("Voulez-vous vraiment supprimer cette séance ?")) {
+            await SeanceService.deleteSeance(idSeance);
+            // Recharger les séances après la suppression
+            refreshSeances();
+        }
+    };
+
     useEffect(() => {
         setCinemas(allCinemas.data);
     }, []);
@@ -95,7 +103,12 @@ const GestionCinema = () => {
                       </thead>
                       <tbody>
                       {seances.map((seance) => (
-                        <Seance key={seance.idSeance} {...seance} films={films} onUpdateClick={handleUpdateClick} />
+                        <Seance key={seance.idSeance}
+                                {...seance}
+                                films={films}
+                                onUpdateClick={handleUpdateClick}
+                                onDeleteClick={handleDeleteClick}
+                        />
                       ))}
                       </tbody>
                   </table>
