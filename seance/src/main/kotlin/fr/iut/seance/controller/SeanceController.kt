@@ -22,6 +22,11 @@ class SeanceController(val seanceService: SeanceService) {
         }
     }
 
+    @GetMapping("byCinema/{idCinema}")
+    fun getByIdCinema(@PathVariable idCinema: Int?) : MutableList<Seance>? {
+        return idCinema?.let { seanceService.getByIdCinema(it) }
+    }
+
     @PostMapping("/create")
     fun create(@RequestBody seance: Seance?): Seance? {
         return seance?.let { seanceService.create(it) }

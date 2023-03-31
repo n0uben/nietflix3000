@@ -9,17 +9,26 @@ const Seance = ({
                       idCinema,
                       idSalle,
                       placeDispo,
-                  }) => (
-    <div className="seance">
-        <p>ID Séance: {idSeance}</p>
-        <p>Date: {date}</p>
-        <p>Horraire Début: {horraireDebut}</p>
-        <p>Horraire Fin: {horraireFin}</p>
-        <p>ID Film: {idFilm}</p>
-        <p>ID Cinéma: {idCinema}</p>
-        <p>ID Salle: {idSalle}</p>
-        <p>Places Disponibles: {placeDispo}</p>
-    </div>
-);
+                      films
+                  }) => {
+  // eslint-disable-next-line
+  const film = films.find((film) => film.id == idFilm);
+  const filmName = film ? film.nom : '';
+
+    return (
+        <tr>
+            <td>{idSalle}</td>
+            <td>{filmName}</td>
+            <td>{date}</td>
+            <td>{horraireDebut}</td>
+            <td>{horraireFin}</td>
+            <td>{placeDispo}</td>
+            <td>
+                <button className="btn btn-outline-warning btn-sm">Update</button>
+                <button className="btn btn-outline-danger btn-sm">Delete</button>
+            </td>
+        </tr>
+    );
+};
 
 export default Seance;
