@@ -17,9 +17,9 @@ else
 $salle = 1;
 }
 
-if(isset($_GET['cinema']))
+if(isset($_GET['id']))
 {
-$id = $_GET['cinema'];
+$id = $_GET['id'];
 }
 else
 {
@@ -96,7 +96,7 @@ $id = 1;
     <meta property="og:type" content="website">
   <meta data-intl-tel-input-cdn-path="intlTelInput/" /></head>
   <body class="u-body u-xl-mode" data-lang="fr"><header class="u-clearfix u-header u-palette-1-base u-header" id="sec-63e4"><div class="u-clearfix u-sheet u-sheet-1">
-        <a href="https://nicepage.com" class="u-image u-logo u-image-1" data-image-width="227" data-image-height="100">
+        <a href="http://localhost/film/index.html" class="u-image u-logo u-image-1" data-image-width="227" data-image-height="100">
           <img src="img/logo.png">
         </a>
       </div></header>
@@ -134,6 +134,26 @@ $id = 1;
                       </div>
                     </form>
                   </div>
+
+                  <h3 class="u-text u-text-default u-text-8" id="Place_libre">Place de libre : ?</h3>
+                  <h2 class="u-text u-text-default u-text-9">Paiement</h2>
+
+                  <div class="u-form u-form-2">
+                    <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form" id="Formulaire_BC">
+                      <div class="u-form-group u-form-name u-label-none">
+                        <label for="name-3b9a" class="u-label">Name</label>
+                        <input type="text" placeholder="Numero Carte Bancaire" id="name-3b9a" name="name" class="u-input u-input-rectangle" required="">
+                      </div>
+                      <div class="u-align-left u-form-group u-form-submit">
+                        <a href="#" class="u-btn u-btn-submit u-button-style">Valider</a>
+                        <input type="submit" value="submit" class="u-form-control-hidden">
+                      </div>
+                      <input type="hidden" value="" name="recaptchaResponse">
+                      <input type="hidden" name="formServices" value="cad8827a45c21d70f2c93fec4a2fb55f">
+                    </form>
+                  </div>
+
+
                 </div>
               </div>
             </div>
@@ -145,7 +165,6 @@ $id = 1;
       <div class="u-clearfix u-sheet u-sheet-1">
         <p class="u-text u-text-1" id="Prix">0,00€<br>0 ticket(s)
         </p>
-        <a href="https://nicepage.com/website-design" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-2-base u-radius-50 u-btn-1">Continuer</a>
         <a href="http://localhost/details/index.php" class="u-btn u-button-style u-none u-text-body-alt-color u-text-hover-white u-btn-2" id="Retour">Retour </a>
       </div>
     </section>
@@ -158,22 +177,57 @@ $id = 1;
   
 </body></html>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+
+
 <script>
+  const socket = io.connect('ws://localhost:5000');
   // créer une variable pour la liste déroulante
   var selectBox = document.createElement("select");
   selectBox.className = "u-input u-input-rectangle";
   selectBox.id = "selectbox";
 
-  for (var i = 0; i <= 10; i++) {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('salle');  
+  const CinemaID = params.get('id');  
+
+  var NumberPlace;
+  var ElementTextNumberPlace = document.getElementById("Place_libre");
+  var placesDispo = 10;
+  
+
+  const seanceId = 1; // Remplacer par l'ID de la séance souhaitée
+  socket.emit('get_place_by_seance_id', { seance_id: seanceId });
+  socket.on('place_info', function(data) {
+      placesDispo = parseInt(data.places.placeDispo);
+      ElementTextNumberPlace.innerHTML = "Place de libre : " + placesDispo;
+  });
+
+  if(placesDispo < 10)
+  {
+    for (var i = 0; i <= placesDispo; i++) {
     var option = document.createElement("option");
     option.text = i;
     selectBox.add(option);
+    }
+  }
+  else
+  {
+    for (var i = 0; i <= 10; i++) {
+    var option = document.createElement("option");
+    option.text = i;
+    selectBox.add(option);
+    }
   }
 
+  
   // ajouter la liste déroulante à la page HTML
   var container = document.getElementById("Select");
   container.appendChild(selectBox);
+
   </script>
+  
   <script>
     // trouver la liste déroulante (select) et la div "Seance"
     var selectBox = document.getElementById("selectbox");
@@ -189,16 +243,10 @@ $id = 1;
 
 
   <script>
-    // Obtenir la chaîne de requête (query string) de l'URL actuelle
-    const queryString = window.location.search;
-
-    // Créer un objet URLSearchParams à partir de la chaîne de requête
-    const params = new URLSearchParams(queryString);
-
     // Récupérer la valeur d'un paramètre spécifique
     const FilmID = params.get('film_id');
     const Salle = params.get('salle');
-    const Cinema = params.get('cinema');
+    const Cinema = params.get('id');
 
     // Sélectionnez l'élément a
     const lien = document.getElementById('Retour');
@@ -206,3 +254,62 @@ $id = 1;
     // Changer la valeur de l'attribut href
     lien.href = 'http://localhost/details/index.php?film_id=' + FilmID + '&id=' + Cinema;
   </script>
+
+
+
+
+<script>
+
+    // Récupérer le formulaire
+    const monFormulaire = document.getElementById("Formulaire_BC");
+
+    // Ajouter un écouteur d'événements sur le formulaire pour détecter la soumission
+    monFormulaire.addEventListener("submit", function(event) {
+      // Empêcher le comportement par défaut du formulaire (recharger la page)
+      event.preventDefault();
+      
+      // Lire le contenu des champs du formulaire
+      const CarteBancaire = document.getElementById("name-3b9a").value;
+      
+      // Faire quelque chose avec les valeurs des champs du formulaire
+      console.log("Le carte : " + CarteBancaire);
+      
+      if(CarteBancaire != null)
+      {
+        const socket = io.connect('ws://localhost:5000');
+
+        socket.emit('check_bank_card', { number: CarteBancaire });
+        socket.on('card_check_result', function(data) { 
+
+            if(data.is_valid)
+            {
+              console.log('Verif carte :', data.is_valid);
+
+              const seanceId = 1; // Remplacer par l'ID de la séance souhaitée
+              const placesAEnlever = 10; // Remplacer par le nombre de places à enlever
+              socket.emit('update_place_seance', { id: seanceId, places_a_enlever: placesAEnlever });
+              socket.on(' ', function(data) {
+                  console.log('Mise à jour réussie:', data);
+                  window.location.href = "http://localhost/dashboard/accueil.php?id="+Cinema;
+              });
+              socket.on('update_error', function(data) {
+                  console.log('Erreur lors de la mise à jour:', data);
+              });
+            }
+        });
+        socket.on('card_check_error', function(data) {
+            console.log('Erreur lors de la verification de la carte bancaire:', data);
+        });
+
+        // Gérer les erreurs
+        socket.on('error', function(data) {
+            console.error('Error:', data.message);
+        });
+      }
+
+      // Réinitialiser le formulaire
+      monFormulaire.reset();
+    });
+
+   
+</script>
