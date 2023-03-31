@@ -37,7 +37,7 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
       const filmDuration = selectedFilmObject.duree;
       setSelectedEndTime(calculateEndTime(startTime, filmDuration));
     } else {
-      setSelectedEndTime(null);
+      setSelectedEndTime('');
     }
   };
 
