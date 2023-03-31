@@ -9,7 +9,8 @@ const Seance = ({
                       idCinema,
                       idSalle,
                       placeDispo,
-                      films
+                      films,
+                      onUpdateClick
                   }) => {
   // eslint-disable-next-line
   const film = films.find((film) => film.id == idFilm);
@@ -24,7 +25,7 @@ const Seance = ({
             <td>{horraireFin}</td>
             <td>{placeDispo}</td>
             <td>
-                <button className="btn btn-outline-warning btn-sm">Update</button>
+                <button className="btn btn-outline-warning btn-sm" onClick={() => onUpdateClick(idSeance)}>Update</button>
                 <button className="btn btn-outline-danger btn-sm">Delete</button>
             </td>
         </tr>

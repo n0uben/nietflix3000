@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import SeanceService from '../services/SeanceService';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSeanceCreated }) => {
+const UpdateSeanceModal = ({ show, onHide, currentSeance, cinemas, films, onSeanceUpdated }) => {
   const [selectedSalle, setSelectedSalle] = useState('');
   const [selectedFilm, setSelectedFilm] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedStartTime, setSelectedStartTime] = useState('');
   const [selectedEndTime, setSelectedEndTime] = useState('');
 
-  const currentCinema = cinemas.find(cinema => cinema.id === currentCinemaId);
+  // eslint-disable-next-line
+  const currentCinema = currentSeance ? cinemas.find(cinema => cinema.id == currentSeance.idCinema) : null;
 
   const calculateEndTime = (startTime, duration) => {
     // Convertir la chaîne de caractères startTime en minutes
@@ -43,23 +44,6 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
     }
   };
 
-  const handleSubmit = async () => {
-    const seance = {
-      idCinema: currentCinemaId,
-      idSalle: selectedSalle,
-      idFilm: selectedFilm,
-      date: selectedDate,
-      horraireDebut: selectedStartTime,
-      horraireFin: selectedEndTime,
-      placeDispo: currentCinema.salles.find(salle => salle.id === selectedSalle).placeDispo
-    };
-
-    await SeanceService.createSeance(seance);
-    onSeanceCreated();
-    resetForm();
-    onHide();
-  };
-
   const resetForm = () => {
     setSelectedSalle('');
     setSelectedFilm('');
@@ -68,10 +52,39 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
     setSelectedEndTime('');
   };
 
+  const handleSubmit = async () => {
+    const updatedSeance = {
+      idCinema: currentSeance.idCinema,
+      idSalle: selectedSalle,
+      idFilm: selectedFilm,
+      date: selectedDate,
+      horraireDebut: selectedStartTime,
+      horraireFin: selectedEndTime,
+      placeDispo: currentSeance.placeDispo
+    };
+
+    await SeanceService.updateSeance(currentSeance.idSeance, updatedSeance);
+    onSeanceUpdated();
+    resetForm();
+    onHide();
+  };
+
+  useEffect(() => {
+    if (currentSeance) {
+      setSelectedSalle(currentSeance.idSalle);
+      setSelectedFilm(currentSeance.idFilm);
+      setSelectedDate(currentSeance.date);
+      setSelectedStartTime(currentSeance.horraireDebut);
+      setSelectedEndTime(currentSeance.horraireFin);
+    }
+  }, [currentSeance]);
+
+
+
   return (
     <Modal show={show} onHide={onHide} onExit={resetForm}>
       <Modal.Header closeButton>
-        <Modal.Title>Ajouter une séance</Modal.Title>
+        <Modal.Title>Modifier une séance</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form>
@@ -84,7 +97,7 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
               onChange={e => setSelectedSalle(Number(e.target.value))}
             >
               <option value="">Sélectionner une salle</option>
-              {currentCinema?.salles.map(salle => (
+              {currentCinema && currentCinema.salles.map(salle => (
                 <option key={salle.id} value={salle.id}>
                   {salle.id}
                 </option>
@@ -164,11 +177,11 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
             !selectedEndTime
           }
         >
-          Ajouter
+          Modifier
         </button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default CreateSeanceModal;
+export default UpdateSeanceModal;

@@ -2,3 +2,35 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.nav-pills .nav-item .nav-link {
+  color: gray;
+  background-color: white;
+  font-weight: bold;
+}
+
+.nav-pills .nav-item .nav-link.active {
+  color: white;
+  background-color: black;
+}
+
+.date-input-container {
+  position: relative;
+}
+
+input[type="date"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 1;
+  border-radius: 0.25rem;
+}
+
+input[type="text"] {
+  position: relative;
+  z-index: 0;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SeanceService from '../services/SeanceService';
 import Seance from '../components/Seance.js';
 import CreateSeanceModal from '../components/CreateSeanceModal.js';
+import UpdateSeanceModal from '../components/UpdateSeanceModal.js';
 import allCinemas from "../data-test/cinemas.json"
 import allFilms from "../data-test/films.json"
 
@@ -15,6 +16,14 @@ const GestionCinema = () => {
     };
 
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [currentSeance, setCurrentSeance] = useState(null);
+
+    const handleUpdateClick = (seanceId) => {
+        const seanceToUpdate = seances.find((seance) => seance.idSeance === seanceId);
+        setCurrentSeance(seanceToUpdate);
+        setShowUpdateModal(true);
+    };
 
     useEffect(() => {
         setCinemas(allCinemas.data);
@@ -48,51 +57,69 @@ const GestionCinema = () => {
     };
 
     return (
-        <div>
-            <h1>Gestion Cinéma</h1>
+      <div className="container text-center">
+          <div className="row">
+              <div className="col">
+                  <h1 className="justify-content-center">Gestion Cinéma</h1>
+              </div>
+          </div>
+          <br/>
+          <div className="row">
+              <div className="col">
+                  <ul className="nav nav-pills nav-fill justify-content-center">
+                      {cinemas.map((cinema) => (
+                        <li key={cinema.id} className="nav-item cursor-pointer" onClick={() => onCinemaTabClick(cinema.id)}>
+                            <h1 className={`nav-link ${currentCinemaId === cinema.id ? 'active' : ''}`}>
+                                {cinema.nom}
+                            </h1>
+                        </li>
+                      ))}
+                  </ul>
+              </div>
+          </div>
+          <div className="row">
+              <div className="col">
+                  <table className="table table-dark table-striped">
+                      <thead>
+                      <tr>
+                          <th>Salle</th>
+                          <th>Film</th>
+                          <th>Date</th>
+                          <th>Début</th>
+                          <th>Fin</th>
+                          <th>Places disponibles</th>
+                          <th>
+                              <button className="btn btn-outline-info btn-sm" onClick={() => setShowCreateModal(true)}>Add</button>
+                          </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {seances.map((seance) => (
+                        <Seance key={seance.idSeance} {...seance} films={films} onUpdateClick={handleUpdateClick} />
+                      ))}
+                      </tbody>
+                  </table>
 
-            <div>
-                <ul className="nav nav-pills justify-content-center">
-                    {cinemas.map((cinema) => (
-                      <li key={cinema.id} className="nav-item cursor-pointer" onClick={() => onCinemaTabClick(cinema.id)}>
-                          <h1 className={`nav-link ${currentCinemaId === cinema.id ? 'active' : ''}`}>
-                              {cinema.nom}
-                          </h1>
-                      </li>
-                    ))}
-                </ul>
-            </div>
+                  <CreateSeanceModal
+                    show={showCreateModal}
+                    onHide={() => setShowCreateModal(false)}
+                    currentCinemaId={currentCinemaId}
+                    cinemas={cinemas}
+                    films={films}
+                    onSeanceCreated={refreshSeances}
+                  />
+                  <UpdateSeanceModal
+                    show={showUpdateModal}
+                    onHide={() => setShowUpdateModal(false)}
+                    currentSeance={currentSeance}
+                    cinemas={cinemas}
+                    films={films}
+                    onSeanceUpdated={refreshSeances}
+                  />
+              </div>
+          </div>
+      </div>
 
-            <table className="table table-dark table-striped">
-                <thead>
-                <tr>
-                    <th>Salle</th>
-                    <th>Film</th>
-                    <th>Date</th>
-                    <th>Début</th>
-                    <th>Fin</th>
-                    <th>Places disponibles</th>
-                    <th>
-                        <button className="btn btn-outline-info btn-sm" onClick={() => setShowCreateModal(true)}>Add</button>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {seances.map((seance) => (
-                    <Seance key={seance.idSeance} {...seance} films={films} />
-                ))}
-                </tbody>
-            </table>
-
-            <CreateSeanceModal
-              show={showCreateModal}
-              onHide={() => setShowCreateModal(false)}
-              currentCinemaId={currentCinemaId}
-              cinemas={cinemas}
-              films={films}
-              onSeanceCreated={refreshSeances}
-            />
-        </div>
     );
 };
 
