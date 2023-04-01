@@ -173,6 +173,8 @@ const GestionCinema = () => {
                     cinemas={cinemas}
                     films={films}
                     onSeanceCreated={refreshSeances}
+                    // eslint-disable-next-line
+                    currentFilm={currentSeance ? films.find((film) => film.id == currentSeance.idFilm) : null}
                   />
                   <UpdateSeanceModal
                     show={showUpdateModal}

@@ -3,6 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import SeanceService from '../services/SeanceService';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
+import { components } from 'react-select';
 
 const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSeanceCreated }) => {
   const [selectedSalle, setSelectedSalle] = useState('');
@@ -10,8 +12,36 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedStartTime, setSelectedStartTime] = useState('');
   const [selectedEndTime, setSelectedEndTime] = useState('');
+  const [showFilmImage, setShowFilmImage] = useState(false);
+  const [imageFilmURL, setImageFilmURL] = useState(null);
 
   const currentCinema = cinemas.find(cinema => cinema.id === currentCinemaId);
+
+  const filmOptions = films.map(film => ({
+    value: film.id,
+    label: film.nom,
+    imageUrl: film.imageUrl
+  }));
+
+  const Option = (props) => {
+    const onMouseEnter = () => {
+      setImageFilmURL(props.data.imageUrl);
+      setShowFilmImage(true);
+    };
+
+    const onMouseLeave = () => {
+      setShowFilmImage(false);
+    };
+
+    return (
+      <div
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <components.Option {...props} />
+      </div>
+    );
+  };
 
   const calculateEndTime = (startTime, duration) => {
     // Convertir la chaîne de caractères startTime en minutes
@@ -51,7 +81,7 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
       date: selectedDate,
       horraireDebut: selectedStartTime,
       horraireFin: selectedEndTime,
-      placeDispo: currentCinema.salles.find(salle => salle.id === selectedSalle).placeDispo
+      placeDispo: currentCinema.salles.find(salle => salle.id === selectedSalle).capacite
     };
 
     await SeanceService.createSeance(seance);
@@ -93,22 +123,33 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
           </div>
           <div className="form-group">
             <label htmlFor="filmSelect">Film</label>
-            <select
-              className="form-control"
-              id="filmSelect"
-              value={selectedFilm}
-              onChange={e => {
-                setSelectedFilm(Number(e.target.value));
-                updateEndTime(selectedStartTime, Number(e.target.value));
-              }}
-            >
-              <option value="">Sélectionner un film</option>
-              {films.map(film => (
-                <option key={film.id} value={film.id}>
-                  {film.nom}
-                </option>
-              ))}
-            </select>
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+              <div style={{ width: "50%" }}>
+                <Select
+                  value={filmOptions.find(option => option.value === selectedFilm)}
+                  options={filmOptions}
+                  components={{ Option }}
+                  onChange={option => {
+                    setSelectedFilm(option.value);
+                    updateEndTime(selectedStartTime, option.value);
+                  }}
+                  onMenuOpen={() => setShowFilmImage(false)}
+                />
+              </div>
+              {showFilmImage && (
+                <div style={{ width: "50%" }}>
+                  <img
+                    src={imageFilmURL}
+                    alt="Affiche du film"
+                    style={{
+                      width: "100%",
+                      height: "300px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
           <div className="form-group">
             <label htmlFor="datePicker">Date</label>
