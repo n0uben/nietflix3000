@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useQuery } from "@apollo/client";
+import { io } from "socket.io-client";
 import SeanceService from '../services/SeanceService';
 import Seance from '../components/Seance.js';
 import CreateSeanceModal from '../components/CreateSeanceModal.js';
 import UpdateSeanceModal from '../components/UpdateSeanceModal.js';
-import allCinemas from "../data-test/cinemas.json"
 
 const GestionCinema = () => {
     const [cinemas, setCinemas] = useState([]);
     const [films, setFilms] = useState([]);
     const [seances, setSeances] = useState([]);
     const [currentCinemaId, setCurrentCinemaId] = useState([]);
+
+    const getCinemas = async () => {
+        const socket = io("http://localhost:5000");
+
+        socket.emit("get_all_cinemas");
+
+        socket.on("cinema_list", (data) => {
+            setCinemas(data.cinemas);
+        });
+    };
+
+
     const ALL_MOVIES_QUERY = gql`
       query listMovies {
         allMovies {
@@ -49,7 +61,7 @@ const GestionCinema = () => {
     };
 
     useEffect(() => {
-        setCinemas(allCinemas.data);
+        getCinemas();
     }, []);
 
     useEffect(() => {
@@ -61,7 +73,7 @@ const GestionCinema = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!currentCinemaId || (Array.isArray(currentCinemaId) && currentCinemaId.length === 0)) {
-                setCurrentCinemaId(allCinemas.data[0]?.id || null);
+                setCurrentCinemaId(cinemas[0]?.id || null);
                 return;
             }
 
@@ -72,7 +84,8 @@ const GestionCinema = () => {
         };
 
         fetchData();
-    }, [currentCinemaId]);
+    }, [cinemas, currentCinemaId]);
+
 
     const refreshSeances = async () => {
         const seancesByCinema = await SeanceService.getSeancesByCinema(currentCinemaId);
