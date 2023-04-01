@@ -123,9 +123,6 @@ const UpdateSeanceModal = ({ show, onHide, currentSeance, currentFilm, cinemas, 
     }
   }, [selectedFilm]);
 
-  console.log("selectedFilm:", selectedFilm);
-  console.log('imageFilmURL:', imageFilmURL);
-
   return (
     <Modal show={show} onHide={onHide} onExit={resetForm}>
       <Modal.Header closeButton>
