@@ -24,8 +24,7 @@ const Seance = ({
     <tr>
       <td>{idSalle}</td>
       <td>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <span>{filmName}</span>
+        <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', width: '100%' }}>
           {filmImageUrl && (
             <div
               onMouseEnter={() => setShowEnlargedImage(true)}
@@ -56,6 +55,7 @@ const Seance = ({
               )}
             </div>
           )}
+          <span className="m-md-3">{filmName}</span>
         </div>
       </td>
       <td>{DateTools.formatDate(date)}</td>
