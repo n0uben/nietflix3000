@@ -74,12 +74,41 @@ def get_salle_by_id_and_cinema_id(data):
             return
     emit('error', {'message': 'Cinema introuvable'})
 
+@socketio.on('get_all_seance')
+def get_all_seance():
+    api_url = 'http://localhost:8080/seance'
+
+    # Appeler l'API REST en utilisant la méthode GET
+    response = requests.get(api_url)
+
+    # Vérifier si la requête a réussi
+    if response.status_code == 200:
+        result = response.json()
+        emit('seance_list', {'seances': result})
+    else:
+        emit('seance_error', {'error': 'Une erreur s\'est produite lors de la récupération des séances de l\'API REST.'})
+
+@socketio.on('get_place_by_seance_id')
+def get_place_by_seance_id(data):
+    seance_id = data['seance_id']
+    api_url = f'http://localhost:8080/seance/{seance_id}'
+
+    # Appeler l'API REST en utilisant la méthode GET
+    response = requests.get(api_url)
+
+    # Vérifier si la requête a réussi
+    if response.status_code == 200:
+        result = response.json()
+        emit('place_info', {'places': result})
+    else:
+        emit('place_error', {'error': 'Une erreur s\'est produite lors de la récupération des places de l\'API REST.'})
+
 # Mettre à jour une seance en appelant une API REST extern
 @socketio.on('update_place_seance')
-def update_seance(data):
+def update_place_seance(data):
     seance_id = data['id']
     places_a_enlever = data['places_a_enlever']
-    api_url = f'https://localhost:8080/seance/updatePlace/{seance_id}/{places_a_enlever}'
+    api_url = f'http://localhost:8080/seance/updatePlace/{seance_id}/{places_a_enlever}'
 
     # Appeler l'API REST en utilisant la méthode PUT
     response = requests.put(api_url)
