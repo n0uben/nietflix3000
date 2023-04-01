@@ -117,6 +117,29 @@ socket.on('error', function(data) {
 });
 ```
 
+### get_all_seances
+
+Récupère la liste de toutes les séances.
+
+```javascript
+socket.emit('get_all_seance');
+socket.on('seance_list', function(data) {
+    console.log('Séances:', data.seances);
+});
+```
+
+### get_place_by_seance_id
+
+Récupère le nombre de places disponibles pour une séance spécifique en fonction de son ID.
+
+```javascript
+const seanceId = 1; // Remplacer par l'ID de la séance souhaitée
+socket.emit('get_place_by_seance_id', { seance_id: seanceId });
+socket.on('place_info', function(data) {
+    console.log('Places:', data.places);
+});
+``` 
+
 ### update_place_seance
 
 /!\ ATTENTION /!\ : Le pare-feu de votre ordinateur peut bloquer la communication local entre cette API et l'API Séance . Si vous rencontrez des problèmes, désactivez le pare-feu temporairement.
