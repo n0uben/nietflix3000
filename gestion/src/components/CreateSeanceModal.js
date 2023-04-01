@@ -43,7 +43,7 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
     }
   };
 
-  const handleSubmit = async () => {
+  const onSubmitClick = async () => {
     const seance = {
       idCinema: currentCinemaId,
       idSalle: selectedSalle,
@@ -155,7 +155,7 @@ const CreateSeanceModal = ({ show, onHide, currentCinemaId, cinemas, films, onSe
         <button
           type="button"
           className="btn btn-primary"
-          onClick={handleSubmit}
+          onClick={onSubmitClick}
           disabled={
             !selectedSalle ||
             !selectedFilm ||

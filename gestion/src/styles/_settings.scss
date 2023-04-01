@@ -7,15 +7,28 @@ h1 {
   color: #212529;
 }
 
+.nav-pills .nav-item {
+  margin: 2px 2px;
+}
+
 .nav-pills .nav-item .nav-link {
   color: #212529;
   background-color: white;
+  border: solid 1px #212529;
+  font-weight: bold;
+}
+
+.nav-pills .nav-item .nav-link:hover {
+  color: white;
+  background-color: #3B3E3F;
+  border: solid 1px #212529;
   font-weight: bold;
 }
 
 .nav-pills .nav-item .nav-link.active {
   color: white;
   background-color: #212529;
+  border: solid 6px #212529;
 }
 
 .date-input-container {

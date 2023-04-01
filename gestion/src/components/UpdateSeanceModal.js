@@ -52,7 +52,7 @@ const UpdateSeanceModal = ({ show, onHide, currentSeance, cinemas, films, onSean
     setSelectedEndTime('');
   };
 
-  const handleSubmit = async () => {
+  const onSubmitClick = async () => {
     const updatedSeance = {
       idCinema: currentSeance.idCinema,
       idSalle: selectedSalle,
@@ -168,7 +168,7 @@ const UpdateSeanceModal = ({ show, onHide, currentSeance, cinemas, films, onSean
         <button
           type="button"
           className="btn btn-primary"
-          onClick={handleSubmit}
+          onClick={onSubmitClick}
           disabled={
             !selectedSalle ||
             !selectedFilm ||

@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { gql, useQuery } from "@apollo/client";
 import SeanceService from '../services/SeanceService';
 import Seance from '../components/Seance.js';
 import CreateSeanceModal from '../components/CreateSeanceModal.js';
 import UpdateSeanceModal from '../components/UpdateSeanceModal.js';
 import allCinemas from "../data-test/cinemas.json"
-import allFilms from "../data-test/films.json"
 
 const GestionCinema = () => {
     const [cinemas, setCinemas] = useState([]);
     const [films, setFilms] = useState([]);
     const [seances, setSeances] = useState([]);
     const [currentCinemaId, setCurrentCinemaId] = useState([]);
+    const ALL_MOVIES_QUERY = gql`
+      query listMovies {
+        allMovies {
+          id
+          nom
+          description
+          dateSortie
+          duree
+          genre
+          imageUrl
+        }
+      }
+    `;
+    const { loading, error, data } = useQuery(ALL_MOVIES_QUERY);
+
     const onCinemaTabClick = (cinemaId) => {
         setCurrentCinemaId(cinemaId);
     };
@@ -19,13 +34,13 @@ const GestionCinema = () => {
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [currentSeance, setCurrentSeance] = useState(null);
 
-    const handleUpdateClick = (seanceId) => {
+    const onSeanceUpdateButtonClick = (seanceId) => {
         const seanceToUpdate = seances.find((seance) => seance.idSeance === seanceId);
         setCurrentSeance(seanceToUpdate);
         setShowUpdateModal(true);
     };
 
-    const handleDeleteClick = async (idSeance) => {
+    const onSeanceDeleteButtonClick = async (idSeance) => {
         if (window.confirm("Voulez-vous vraiment supprimer cette séance ?")) {
             await SeanceService.deleteSeance(idSeance);
             // Recharger les séances après la suppression
@@ -38,8 +53,10 @@ const GestionCinema = () => {
     }, []);
 
     useEffect(() => {
-        setFilms(allFilms.data.allMovies);
-    }, []);
+        if (data && data.allMovies) {
+            setFilms(data.allMovies);
+        }
+    }, [data]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,11 +81,15 @@ const GestionCinema = () => {
         }
     };
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
     return (
       <div className="container text-center">
           <div className="row">
               <div className="col">
-                  <h1 className="justify-content-center">Gestion Cinéma</h1>
+                  <h1>NIETFLIX3000</h1>
+                  <h3 className="justify-content-center">Seance Maker</h3>
               </div>
           </div>
           <br/>
@@ -116,19 +137,18 @@ const GestionCinema = () => {
                             return dateA - dateB;
                         })
                         .map((seance, index, sortedSeances) => (
-                          <>
+                          <React.Fragment key={`seance-${seance.idSeance}`}>
                               <Seance
-                                key={seance.idSeance}
                                 {...seance}
                                 films={films}
-                                onUpdateClick={handleUpdateClick}
-                                onDeleteClick={handleDeleteClick}
+                                onUpdateClick={onSeanceUpdateButtonClick}
+                                onDeleteClick={onSeanceDeleteButtonClick}
                               />
                                 {index < sortedSeances.length - 1 &&
                                 sortedSeances[index].idSalle !== sortedSeances[index + 1].idSalle ? (
-                                  <tr style={{ height: "20px" }} /> // Ajoute un espace entre les groupes de séances d'une même salle
+                                  <tr key={`separator-${seance.idSalle}`} style={{ height: "20px" }} /> // Ajoute un espace entre les groupes de séances d'une même salle
                                 ) : null}
-                          </>
+                          </React.Fragment>
                         ))}
                       </tbody>
                   </table>
