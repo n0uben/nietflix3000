@@ -7,23 +7,23 @@ import CreateSeanceModal from '../components/CreateSeanceModal.js';
 import UpdateSeanceModal from '../components/UpdateSeanceModal.js';
 
 const GestionCinema = () => {
-    const [cinemas, setCinemas] = useState([]);
-    const [films, setFilms] = useState([]);
-    const [seances, setSeances] = useState([]);
-    const [currentCinemaId, setCurrentCinemaId] = useState([]);
+  const [cinemas, setCinemas] = useState ([]);
+  const [films, setFilms] = useState ([]);
+  const [seances, setSeances] = useState ([]);
+  const [currentCinemaId, setCurrentCinemaId] = useState ([]);
 
-    const getCinemas = async () => {
-        const socket = io("http://localhost:5000");
+  const getCinemas = async () => {
+    const socket = io ("http://localhost:5000");
 
-        socket.emit("get_all_cinemas");
+    socket.emit ("get_all_cinemas");
 
-        socket.on("cinema_list", (data) => {
-            setCinemas(data.cinemas);
-        });
-    };
+    socket.on ("cinema_list", (data) => {
+      setCinemas (data.cinemas);
+    });
+  };
 
 
-    const ALL_MOVIES_QUERY = gql`
+  const ALL_MOVIES_QUERY = gql`
       query listMovies {
         allMovies {
           id
@@ -36,159 +36,158 @@ const GestionCinema = () => {
         }
       }
     `;
-    const { loading, error, data } = useQuery(ALL_MOVIES_QUERY);
+  const {loading, error, data} = useQuery (ALL_MOVIES_QUERY);
 
-    const onCinemaTabClick = (cinemaId) => {
-        setCurrentCinemaId(cinemaId);
+  const onCinemaTabClick = (cinemaId) => {
+    setCurrentCinemaId (cinemaId);
+  };
+
+  const [showCreateModal, setShowCreateModal] = useState (false);
+  const [showUpdateModal, setShowUpdateModal] = useState (false);
+  const [currentSeance, setCurrentSeance] = useState (null);
+
+  const onSeanceUpdateButtonClick = (seanceId) => {
+    const seanceToUpdate = seances.find ((seance) => seance.idSeance === seanceId);
+    setCurrentSeance (seanceToUpdate);
+    setShowUpdateModal (true);
+  };
+
+  const onSeanceDeleteButtonClick = async (idSeance) => {
+    if (window.confirm ("Voulez-vous vraiment supprimer cette séance ?")) {
+      await SeanceService.deleteSeance (idSeance);
+      // Recharger les séances après la suppression
+      refreshSeances ();
+    }
+  };
+
+  useEffect (() => {
+    getCinemas ();
+  }, []);
+
+  useEffect (() => {
+    if (data && data.allMovies) {
+      setFilms (data.allMovies);
+    }
+  }, [data]);
+
+  useEffect (() => {
+    const fetchData = async () => {
+      if (!currentCinemaId || (
+        Array.isArray (currentCinemaId) && currentCinemaId.length === 0 )) {
+        setCurrentCinemaId (cinemas[0]?.id || null);
+        return;
+      }
+
+      const seancesByCinema = await SeanceService.getSeancesByCinema (currentCinemaId);
+      if (seancesByCinema) {
+        setSeances (seancesByCinema);
+      }
     };
 
-    const [showCreateModal, setShowCreateModal] = useState(false);
-    const [showUpdateModal, setShowUpdateModal] = useState(false);
-    const [currentSeance, setCurrentSeance] = useState(null);
-
-    const onSeanceUpdateButtonClick = (seanceId) => {
-        const seanceToUpdate = seances.find((seance) => seance.idSeance === seanceId);
-        setCurrentSeance(seanceToUpdate);
-        setShowUpdateModal(true);
-    };
-
-    const onSeanceDeleteButtonClick = async (idSeance) => {
-        if (window.confirm("Voulez-vous vraiment supprimer cette séance ?")) {
-            await SeanceService.deleteSeance(idSeance);
-            // Recharger les séances après la suppression
-            refreshSeances();
-        }
-    };
-
-    useEffect(() => {
-        getCinemas();
-    }, []);
-
-    useEffect(() => {
-        if (data && data.allMovies) {
-            setFilms(data.allMovies);
-        }
-    }, [data]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!currentCinemaId || (Array.isArray(currentCinemaId) && currentCinemaId.length === 0)) {
-                setCurrentCinemaId(cinemas[0]?.id || null);
-                return;
-            }
-
-            const seancesByCinema = await SeanceService.getSeancesByCinema(currentCinemaId);
-            if (seancesByCinema) {
-                setSeances(seancesByCinema);
-            }
-        };
-
-        fetchData();
-    }, [cinemas, currentCinemaId]);
+    fetchData ();
+  }, [cinemas, currentCinemaId]);
 
 
-    const refreshSeances = async () => {
-        const seancesByCinema = await SeanceService.getSeancesByCinema(currentCinemaId);
-        if (seancesByCinema) {
-            setSeances(seancesByCinema);
-        }
-    };
+  const refreshSeances = async () => {
+    const seancesByCinema = await SeanceService.getSeancesByCinema (currentCinemaId);
+    if (seancesByCinema) {
+      setSeances (seancesByCinema);
+    }
+  };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
-    return (
-      <div className="container text-center">
-          <div className="row">
-              <div className="col">
-                  <h1>NIETFLIX3000</h1>
-                  <h3 className="justify-content-center">Seance Maker</h3>
-              </div>
-          </div>
-          <br/>
-          <div className="row">
-              <div className="col">
-                  <ul className="nav nav-pills nav-fill justify-content-center">
-                      {cinemas.map((cinema) => (
-                        <li key={cinema.id} className="nav-item cursor-pointer" onClick={() => onCinemaTabClick(cinema.id)}>
-                            <h1 className={`nav-link ${currentCinemaId === cinema.id ? 'active' : ''}`}>
-                                {cinema.nom}
-                            </h1>
-                        </li>
-                      ))}
-                  </ul>
-              </div>
-          </div>
-          <div className="row">
-              <div className="col">
-                  <table className="table table-dark table-striped">
-                      <thead>
-                      <tr>
-                          <th>Salle</th>
-                          <th>Film</th>
-                          <th>Date</th>
-                          <th>Début</th>
-                          <th>Fin</th>
-                          <th>Places disponibles</th>
-                          <th>
-                              <button className="btn btn-outline-info btn-sm" onClick={() => setShowCreateModal(true)}>Add</button>
-                          </th>
-                      </tr>
-                      <tr style={{ height: "20px" }} />
-                      </thead>
-                      <tbody>
-                      {seances
-                        .sort((a, b) => {
-                            // Trie d'abord par salle
-                            if (a.idSalle !== b.idSalle) {
-                                return a.idSalle - b.idSalle;
-                            }
-
-                            // Si les salles sont les mêmes, trie par date
-                            const dateA = new Date(a.date);
-                            const dateB = new Date(b.date);
-                            return dateA - dateB;
-                        })
-                        .map((seance, index, sortedSeances) => (
-                          <React.Fragment key={`seance-${seance.idSeance}`}>
-                              <Seance
-                                {...seance}
-                                films={films}
-                                onUpdateClick={onSeanceUpdateButtonClick}
-                                onDeleteClick={onSeanceDeleteButtonClick}
-                              />
-                                {index < sortedSeances.length - 1 &&
-                                sortedSeances[index].idSalle !== sortedSeances[index + 1].idSalle ? (
-                                  <tr key={`separator-${seance.idSalle}`} style={{ height: "20px" }} /> // Ajoute un espace entre les groupes de séances d'une même salle
-                                ) : null}
-                          </React.Fragment>
-                        ))}
-                      </tbody>
-                  </table>
-
-                  <CreateSeanceModal
-                    show={showCreateModal}
-                    onHide={() => setShowCreateModal(false)}
-                    currentCinemaId={currentCinemaId}
-                    cinemas={cinemas}
-                    films={films}
-                    onSeanceCreated={refreshSeances}
-                    // eslint-disable-next-line
-                    currentFilm={currentSeance ? films.find((film) => film.id == currentSeance.idFilm) : null}
-                  />
-                  <UpdateSeanceModal
-                    show={showUpdateModal}
-                    onHide={() => setShowUpdateModal(false)}
-                    currentSeance={currentSeance}
-                    cinemas={cinemas}
-                    films={films}
-                    onSeanceUpdated={refreshSeances}
-                  />
-              </div>
-          </div>
+  return (
+    <div className="container text-center">
+      <div className="application-title-container">
+        <div className="application-title">
+          <h1>NIETFLIX3000</h1>
+          <h3 className="justify-content-center">⚙ Seance Maker ⚙</h3>
+        </div>
       </div>
+      <br/>
+      <div className="row">
 
-    );
+        <ul className="nav nav-pills nav-fill justify-content-center">
+          { cinemas.map ((cinema) => (
+            <li key={ cinema.id } className="nav-item cursor-pointer" onClick={ () => onCinemaTabClick (cinema.id) }>
+              <h1 className={ `nav-link ${ currentCinemaId === cinema.id ? 'active' : '' }` }>
+                { cinema.nom }
+              </h1>
+            </li>
+          )) }
+        </ul>
+
+      </div>
+      <div className="row">
+        <table className="table table-dark table-striped">
+          <thead>
+          <tr>
+            <th>Salle</th>
+            <th>Film</th>
+            <th>Date</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Places disponibles</th>
+            <th>
+              <button className="btn btn-outline-info btn-sm" onClick={ () => setShowCreateModal (true) }>Add</button>
+            </th>
+          </tr>
+          <tr style={ {height: "20px"} }/>
+          </thead>
+          <tbody>
+          { seances
+            .sort ((a, b) => {
+              // Trie d'abord par salle
+              if (a.idSalle !== b.idSalle) {
+                return a.idSalle - b.idSalle;
+              }
+
+              // Si les salles sont les mêmes, trie par date
+              const dateA = new Date (a.date);
+              const dateB = new Date (b.date);
+              return dateA - dateB;
+            })
+            .map ((seance, index, sortedSeances) => (
+              <React.Fragment key={ `seance-${ seance.idSeance }` }>
+                <Seance
+                  { ... seance }
+                  films={ films }
+                  onUpdateClick={ onSeanceUpdateButtonClick }
+                  onDeleteClick={ onSeanceDeleteButtonClick }
+                />
+                { index < sortedSeances.length - 1 &&
+                sortedSeances[index].idSalle !== sortedSeances[index + 1].idSalle ? (
+                  <tr key={ `separator-${ seance.idSalle }` } style={ {height: "20px"} }/> // Ajoute un espace entre les groupes de séances d'une même salle
+                ) : null }
+              </React.Fragment>
+            )) }
+          </tbody>
+        </table>
+
+        <CreateSeanceModal
+          show={ showCreateModal }
+          onHide={ () => setShowCreateModal (false) }
+          currentCinemaId={ currentCinemaId }
+          cinemas={ cinemas }
+          films={ films }
+          onSeanceCreated={ refreshSeances }
+          // eslint-disable-next-line
+          currentFilm={ currentSeance ? films.find ((film) => film.id == currentSeance.idFilm) : null }
+        />
+        <UpdateSeanceModal
+          show={ showUpdateModal }
+          onHide={ () => setShowUpdateModal (false) }
+          currentSeance={ currentSeance }
+          cinemas={ cinemas }
+          films={ films }
+          onSeanceUpdated={ refreshSeances }
+        />
+      </div>
+    </div>
+
+  );
 };
 
 export default GestionCinema;
