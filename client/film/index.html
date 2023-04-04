@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Page d'accueil</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/headers.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><img src="image/logo.png" class="img-fluid mx-auto d-block" alt="Logo">
+                </li>
+            </ul>
+        </header>
+    </div>
+
+    <div class="d-flex justify-content-center">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const socket = io.connect('ws://localhost:5000');
+
+        // Demander la liste de tous les cinémas
+        socket.emit('get_all_cinemas');
+            socket.on('cinema_list', function(data) {
+                const salleList = data.cinemas;
+                salleList.forEach(function(salle) {
+                // Créer un formulaire
+                const myForm = document.createElement('form');
+                myForm.setAttribute('method', 'post');
+                myForm.setAttribute('action', '../dashboard/accueil.php?id='+salle.id);
+
+            
+                // Créer un bouton de soumission
+                const submitButton = document.createElement('button');
+                submitButton.setAttribute('type', 'submit');
+                submitButton.textContent = '' + salle.nom;
+                myForm.appendChild(submitButton);
+
+                // Créer un champ de saisie caché avec la valeur de l'ID
+                const idInput = document.createElement('input');
+                idInput.setAttribute('type', 'hidden');
+                idInput.setAttribute('name', 'id');
+                idInput.setAttribute('value', '1');
+                myForm.appendChild(idInput);
+
+                // Ajouter le formulaire au document
+                const container = document.getElementById('form-container');
+                container.appendChild(myForm);
+                });
+            });
+
+       
+
+
+
+        // Gérer les erreurs
+        socket.on('error', function(data) {
+            console.error('Error:', data.message);
+        });
+
+
+        
+            
+
+    });
+</script>
+
+ 
+        <div id="form-container"></div>
+    </div>
+
+
+
+    <!-- Footer -->
+
+    <div class="container">
+        <footer class="py-3 my-4">
+            <p class="text-center text-muted">&copy; 2023 NietFlix, Inc</p>
+        </footer>
+    </div>
+
+</body>
+</html>
