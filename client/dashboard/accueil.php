@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     
@@ -22,6 +22,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
 <script>
+    var cinemaId;
     document.addEventListener("DOMContentLoaded", function() {
         const socket = io.connect('ws://localhost:5000');
         
@@ -37,7 +38,7 @@
         console.log('La valeur de l\'ID est : ' + nb);
 
         // Demander les salles d'un cinéma spécifique
-        const cinemaId = nb; // Remplacer par l'ID du cinéma souhaité
+        cinemaId = nb; // Remplacer par l'ID du cinéma souhaité
         socket.emit('get_cinema_by_id', { cinema_id: cinemaId });
         socket.on('cinema_info', function(data) {
             const CinemaName = document.createElement('h2');
@@ -103,7 +104,7 @@
             <!-- Debut conteneur -->
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
-
+            <div id="PasDeFilm"></div>
                 <?php
                     if(isset($_GET['id']))
                     {
@@ -163,7 +164,7 @@
 
                     // Afficher la liste triée de tous les films
                     foreach ($movies as $movie) {
-                        echo "<div class=\"col\">";
+                        echo "<div class=\"col\" id=\"Film$movie->id\">";
                         echo "<form method=\"post\" action=\"../details/index.php?film_id=". $movie->id .  "&id=". $id_cinema  ."  \">";
                         echo "<div class=\"card shadow-sm\">";
                         echo "<img style=\"padding: 5px\" src=\"" .$movie->imageUrl . "\">";
@@ -178,12 +179,69 @@
                         echo "</div>";
                         echo "</div>";
                     }
+
+
                 ?>
                 
                 <!-- Fin de conteneur -->
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <script>
+            const Seance = [];
+            const SeanceCinema = [];
+             
+
+            const socket = io.connect('ws://localhost:5000');
+            // Emittre un événement pour récupérer toutes les séances
+            socket.emit('get_all_seance');
+
+            // Ecouter l'événement 'seance_list' pour récupérer les informations des séances
+            socket.on('seance_list', function(data) {
+                // Récupérer la liste des séances dans le résultat JSON
+                var seances = data.seances; 
+                // Parcours de la liste des séances
+                $.each(seances, function(index, seance) {
+                    Seance.push(parseInt(seance.idFilm));
+                    SeanceCinema.push(seance.idCinema);
+                });
+
+                const elements = document.querySelectorAll('[id^="Film"]');
+                
+                elements.forEach((element) => {
+                    const chiffre = element.id.substring(4);
+                    if(!verifierId(parseInt(chiffre)))
+                    {
+                        element.remove();
+                    }
+                });
+
+              
+                    
+            });
+
+            function verifierId(id) {
+            if (Seance.includes(id)) {
+                
+                if(cinemaId != SeanceCinema[Seance.indexOf(id)])
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+            }
+
+
+          </script>
+
 
     <!-- Footer -->
 
