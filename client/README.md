@@ -1,5 +1,3 @@
-# BANQUE API
-
 Cette documentation explique le fonctionnement du site web de Nietflix3000.
 
 ## Prérequis
