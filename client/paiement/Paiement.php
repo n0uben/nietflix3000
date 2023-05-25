@@ -76,7 +76,6 @@ $id = 1;
     <meta name="keywords" content="Les autres films a l&amp;apos;affiche">
     <meta name="description" content="">
     <title>Paiement</title>
-    <link rel="stylesheet" href="nicepage.css" media="screen">
 <link rel="stylesheet" href="Paiement.css" media="screen">
     <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
